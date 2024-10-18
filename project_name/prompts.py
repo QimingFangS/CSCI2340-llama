@@ -71,20 +71,20 @@ def _construct_instruction_prompt():
 
 def construct_user_prompt(searched_response, query, session_id):
 
-    # history_prompt = _construct_history_prompt(session_id)
+    history_prompt = _construct_history_prompt(session_id)
 
-    # if history_prompt is None:
-    #     history_prompt = "No conversation history found. This is a new conversation with Alice.\n"
+    if history_prompt is None:
+        history_prompt = "No conversation history found. This is a new conversation with Alice.\n"
 
-    # rag_prompt = _construct_RAG_prompt(searched_response)
+    rag_prompt = _construct_RAG_prompt(searched_response)
 
-    # instruction_prompt = _construct_instruction_prompt()
+    instruction_prompt = _construct_instruction_prompt()
 
-    # user_prompt = f'''
-    # Chat with Alice based on the conversation history and your knowledge base. \n
-    # Response to Alice's query: {query}\n
-    # '''
-    # user_prompt = history_prompt + rag_prompt + instruction_prompt + user_prompt
+    user_prompt = f'''
+    Chat with Alice based on the conversation history and your knowledge base. \n
+    Response to Alice's query: {query}\n
+    '''
+    user_prompt = history_prompt + rag_prompt + instruction_prompt + user_prompt
 
     #   NOTE: disable all other features except the user input
     user_prompt = f"Response to Alice's query: {query}\n"

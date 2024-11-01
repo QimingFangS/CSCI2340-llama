@@ -1,0 +1,84 @@
+
+body {
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-container {
+    height: 85vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.chat--body {
+    height: 100%;
+    overflow-y: scroll;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.chat--output {
+    margin: 0.5em 0;
+}
+
+.chat--input {
+    align-self: flex-end;
+
+    color: var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+
+    margin: 0.5em 0;
+    padding: 0.5em 0.75em;
+    border-radius: 0.25em;
+
+    max-width: 75vw;
+    word-wrap: normal;
+}
+
+.chat--textarea--container {
+    width: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat--textarea {
+    width: 90%;
+    box-sizing: border-box;
+
+    resize: none;
+    font-family: inherit;
+
+    margin: 1em;
+    padding: 0.75em 1em;
+
+    color: var(--vscode-input-foreground);
+    background-color: var(--vscode-input-background);
+
+    border-radius: 0.5em;
+}
+
+.chat--textarea--icon {
+    height: 2em;
+    width: 2em;
+
+    cursor: pointer;
+
+    border: var(--vscode-button-border);
+    border-radius: 1em;
+
+    color: var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+}
+
+.chat--textarea--icon:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}

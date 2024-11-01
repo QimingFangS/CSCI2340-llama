@@ -52,7 +52,7 @@ def _construct_history_prompt(session_id):
             with open(log_file_path, 'r') as file:
                 for line in file:
                     chat_entry = json.loads(line)
-                    history_prompt += f"Alice said: {chat_entry['prompt']}\nYou said: {chat_entry['response']}\n"
+                    history_prompt += f"User said: {chat_entry['prompt']}\nYou said: {chat_entry['response']}\n"
         else:
             return None
 
@@ -74,19 +74,19 @@ def construct_user_prompt(searched_response, query, session_id):
     history_prompt = _construct_history_prompt(session_id)
 
     if history_prompt is None:
-        history_prompt = "No conversation history found. This is a new conversation with Alice.\n"
+        history_prompt = "No conversation history found. This is a new conversation with User.\n"
 
     rag_prompt = _construct_RAG_prompt(searched_response)
 
     instruction_prompt = _construct_instruction_prompt()
 
     user_prompt = f'''
-    Chat with Alice based on the conversation history and your knowledge base. \n
-    Response to Alice's query: {query}\n
+    Chat with User based on the conversation history and your knowledge base. \n
+    Response to User's query: {query}\n
     '''
     user_prompt = history_prompt + rag_prompt + instruction_prompt + user_prompt
 
     #   NOTE: disable all other features except the user input
-    user_prompt = f"Response to Alice's query: {query}\n"
+    user_prompt = f"Response to User's query: {query}\n"
 
     return user_prompt

@@ -1,0 +1,38 @@
+{
+  "name": "2340llamacopilot",
+  "displayName": "Llama coding pilot",
+  "description": "A powerful code assistant that uses the LLaMA API to provide intelligent code suggestions and completions, helping developers write code more efficiently.",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.93.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "2340llamacopilot.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "pretest": "npm run lint",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.7",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.93.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "eslint": "^9.9.1"
+  },
+  "dependencies": {
+    "2340llamacopilot": "file:"
+  }
+}

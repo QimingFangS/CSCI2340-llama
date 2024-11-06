@@ -2,6 +2,10 @@
 
 The extension allows users to paste code snippets into a chat box within a webview.
 
+**For how to use the front-end:**
+
+**[Click here to view the Front-end Quick Start](./Front-endQuickStart.md)**
+
 ## Module 1: `extension.ts`
 
 This is the main module of the VSCode extension, responsible for activating the extension, registering commands, and handling interactions between the editor and the webview.

@@ -1,7 +1,7 @@
 {
   "name": "llama",
-  "displayName": "llama",
-  "description": "",
+  "displayName": "Llama Chat Assistant",
+  "description": "A chat assistant integrated into VSCode",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.94.0"
@@ -9,13 +9,37 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onCommand:chatbox.open",
+    "onCommand:chatbox.showSidebar"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "llamaChatbox",
+          "title": "Chat Box",
+          "icon": "resources/chatbox.svg"
+        }
+      ]
+    },
+    "views": {
+      "llamaChatbox": [
+        {
+          "id": "sidebarChatboxView",
+          "name": "Chat Assistant"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "chatbox.open",
-        "title": "Open Chat Box"
+        "title": "Open Standalone Chat Box"
+      },
+      {
+        "command": "chatbox.showSidebar",
+        "title": "Show Chat Assistant in Sidebar"
       },
       {
         "command": "chatbox.pasteCode",
@@ -26,7 +50,12 @@
       "view/title": [
         {
           "command": "chatbox.pasteCode",
-          "when": "view == chatbox",
+          "when": "view == sidebarChatboxView",
+          "group": "navigation"
+        },
+        {
+          "command": "chatbox.pasteCode",
+          "when": "view == standaloneChatbox",
           "group": "navigation"
         }
       ]

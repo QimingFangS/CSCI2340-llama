@@ -1,9 +1,11 @@
 import os
+from dotenv import load_dotenv
 from langchain_community.chat_models import ChatOpenAI
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 
 from llama_copilot.prompts import construct_system_prompt, construct_user_prompt
 
+load_dotenv()
 
 def _chat_llm(messages, model, temperature, max_tokens, n, timeout=600, stop=None, return_tokens=False):
     if model.__contains__("gpt"):
@@ -69,7 +71,7 @@ def _chat_llm(messages, model, temperature, max_tokens, n, timeout=600, stop=Non
         'generations': responses,
         'completion_tokens': completion_tokens,
         'prompt_tokens': prompt_tokens
-    }
+}
 
 
 def generate_llm_response(query, session_id=None, generation_model='gpt-4o', searched_response=None):

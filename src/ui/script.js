@@ -1,33 +1,39 @@
 
-// import { marked } from "marked";
-// import { marked } from 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-// import marked from 'https://cdn.jsdelivr.net/npm/marked/marked.min.js';
-
-console.log("testing");
-
 const textarea = document.getElementById("textarea");
 const chat = document.getElementById("chat");
 
 function submit() {
-    console.log("submit!", textarea.value);
+
+    // append user input to frontend view 
+    const userInput = textarea.value;
 
     const input = document.createElement("div");
-
-    // input.textContent = marked(textarea.value);
-
-    const formattedText = textarea.value.replace(/\n/g, '<br/>');
+    const formattedText = userInput.replace(/\n/g, '<br/>');
     input.innerHTML = formattedText;
-
     input.className = "chat--input";
     chat.appendChild(input);
 
     textarea.value = "";
 
-    const output = document.createElement("div");
-    output.textContent = "This is a test bot!";
-    output.className = "chat--output"; //
-    chat.appendChild(output);
+    // call backend api
+    const payload = {"query": userInput};
 
+    fetch("http://127.0.0.1:8080/api/test", {
+        method:  "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)  
+    })
+    .then(r => r.json())
+    .then(r => {
+        
+        // append backend output to frontend ui
+        const output = document.createElement("div");
+        output.innerHTML = r.response;
+        output.className = "chat--output"; //
+        chat.appendChild(output);
+    });
 }
 
 document.getElementById("submit-button").addEventListener("click", () => {
@@ -36,7 +42,9 @@ document.getElementById("submit-button").addEventListener("click", () => {
 
 textarea.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
-        event.preventDefault();  // Prevents newline if it's a text area
+        // Prevents newline if it's a text area
+        event.preventDefault();  
+
         submit();
     }
 });

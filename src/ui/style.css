@@ -82,3 +82,19 @@ body {
 .chat--textarea--icon:hover {
     background-color: var(--vscode-button-hoverBackground);
 }
+
+
+code {
+    /* margin: 0.5em;
+    padding: 0.5em; */
+
+    display: block;
+
+    width: fit-content;
+    padding: 0.5em;
+    margin: 0.5em;
+
+    line-height: 1.5em;
+
+    white-space: pre-wrap;
+}

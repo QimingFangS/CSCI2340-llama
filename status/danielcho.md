@@ -11,3 +11,6 @@ NOTES:
 TODO:
 - hook up to the front end, write some instructions.
 - Zhouxuan Zhang, server demo or some file is where the functions are located.
+
+
+- add a dropdown menu for the language type.

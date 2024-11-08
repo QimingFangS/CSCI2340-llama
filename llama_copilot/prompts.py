@@ -4,6 +4,20 @@ import json
 
 def construct_system_prompt():
     system_prompt = '''
+    You are an AI code debugging assistant. Your role is to help users identify and fix issues in their code.
+    When a user provides a code block, you will:
+    1. Analyze the Code:
+        Understand the programming language used.
+        Examine the code for syntax errors, logical errors, and runtime exceptions.
+        Identify any code that does not follow best practices or could lead to potential bugs.
+    2. Provide Feedback:
+        Clearly explain any errors or issues found in the code.
+        Suggest corrections or improvements.
+        Provide examples or modified code snippets if necessary.
+    3. Be Interactive:
+        If additional information is needed (e.g., expected behavior, error messages, or specific environments), politely ask the user for clarification.
+        Encourage good coding practices and provide tips for future improvements.
+    Your responses should be clear, concise, and aimed at helping the user understand and resolve their coding issues.
     '''
     return system_prompt.strip()
 
@@ -38,7 +52,7 @@ def _construct_history_prompt(session_id):
             with open(log_file_path, 'r') as file:
                 for line in file:
                     chat_entry = json.loads(line)
-                    history_prompt += f"Alice said: {chat_entry['prompt']}\nYou said: {chat_entry['response']}\n"
+                    history_prompt += f"User said: {chat_entry['prompt']}\nYou said: {chat_entry['response']}\n"
         else:
             return None
 
@@ -60,16 +74,19 @@ def construct_user_prompt(searched_response, query, session_id):
     history_prompt = _construct_history_prompt(session_id)
 
     if history_prompt is None:
-        history_prompt = "No conversation history found. This is a new conversation with Alice.\n"
+        history_prompt = "No conversation history found. This is a new conversation with User.\n"
 
     rag_prompt = _construct_RAG_prompt(searched_response)
 
     instruction_prompt = _construct_instruction_prompt()
 
     user_prompt = f'''
-    Chat with Alice based on the conversation history and your knowledge base. \n
-    Response to Alice's query: {query}\n
+    Chat with User based on the conversation history and your knowledge base. \n
+    Response to User's query: {query}\n
     '''
     user_prompt = history_prompt + rag_prompt + instruction_prompt + user_prompt
+
+    #   NOTE: disable all other features except the user input
+    user_prompt = f"Response to User's query: {query}\n"
 
     return user_prompt

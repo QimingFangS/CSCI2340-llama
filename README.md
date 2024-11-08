@@ -55,3 +55,13 @@ The extension consists of two main modules:
 2. **`webviewContent.ts`**: Generates the HTML content for the webview and manages interactions within the webview.
 
 The code is structured to allow seamless communication between the VSCode editor and the chat box webview, enabling the user to paste code snippets directly into the chat interface.
+
+
+### Architecture
+
+[Architecture link](https://drive.google.com/file/d/1juJmNTk010oKgFTvrhUXEUXPAT3vn-E6/view?usp=share_link)
+
+### Specifications and Requirements
+
+[Specifications and Requirements Link](https://drive.google.com/file/d/1juJmNTk010oKgFTvrhUXEUXPAT3vn-E6/view?usp=share_link)
+

@@ -26,6 +26,11 @@ user_sessions = {}
 
 @app.route("/api/test", methods=["POST"])
 def test():
+    """
+    Testing method for frontend end demo.
+
+    Author: Daniel Cho
+    """
     data = request.get_json()
     query = data.get("query")
     session_id = data.get("session_id") 

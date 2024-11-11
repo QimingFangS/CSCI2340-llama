@@ -1,8 +1,25 @@
+/**
+ * This file contains functionality for frontend calls such as api calls
+ * to the backend, code copy and pasting, and more.
+ * 
+ * Author: Daniel Cho
+ */
+
+
+// TODO
+    // (ghost) code copy and pasting 
+
 
 const textarea = document.getElementById("textarea");
 const chat = document.getElementById("chat");
 
 function submit() {
+    /**
+     * When a user writes to the text box and submits, this function is called.
+     * Takes user input, appends it to the chat display, clears the input text box,
+     * and then calls the backend, appending results from the call into the chat
+     * display.
+     */
 
     // append user input to frontend view 
     const userInput = textarea.value;
@@ -36,10 +53,12 @@ function submit() {
     });
 }
 
+// when the submission button is pressed, calls the submit function
 document.getElementById("submit-button").addEventListener("click", () => {
     submit();
 });
 
+// when 'enter' is pressed, calls the submit function
 textarea.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
         // Prevents newline if it's a text area

@@ -1,3 +1,6 @@
+// TODO:
+    // clean up this code/remove commented out portions
+
 // Import the vscode module to interact with the Visual Studio Code API
 import * as vscode from 'vscode';
 import path from 'path';

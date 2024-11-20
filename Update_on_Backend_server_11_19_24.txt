@@ -1,0 +1,11 @@
+Title: Update on Backend version 1.0
+
+Backend server 1: https://github.com/rili0214/Code-Generating-Project
+
+Backend server 2: https://github.com/rili0214/Code-Debugging-Project
+
+Workflow of backend servers: https://docs.google.com/drawings/d/1_L3x8BSyXFxRXm1XaalxutYp5_VynZwe3JpWyMylrLg/edit?usp=sharing
+
+Note: I added the flask API this morning, and it works okay. I am running it on my local GitHub repo right now, when deploying 
+on Azure VM, it runs so slow even I changed to high-performance env. Please be aware that although it is almost fully functional,
+there exist some potential bugs/issues as it is still under fully testing. 

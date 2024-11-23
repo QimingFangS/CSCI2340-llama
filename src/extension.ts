@@ -1,98 +1,157 @@
 // Import the vscode module to interact with the Visual Studio Code API
 import * as vscode from 'vscode';
-// Import the function to get HTML content for the webview
+
+// Import functions to generate HTML content for the webview
 import { getWebviewContent } from './webviewContent';
+import { getLoginPanel } from './loginContent';
 
 // Activate the extension
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "chatbox" is now active!');
 
     // Register a command to open the standalone chat box
-    let disposable_standalone = vscode.commands.registerCommand('chatbox.open', () => {
-        console.log('Standalone chat box command executed');
-        // Create a new webview panel for the standalone chat box
-        const panel = vscode.window.createWebviewPanel(
-            'standaloneChatbox', // Identifier for the webview
-            'Standalone Chat Box', // Title of the webview
-            vscode.ViewColumn.One, // Show the webview in the first column
+    let disposable = vscode.commands.registerCommand('chatbox.login', () => {
+        console.log('Login init..');
+
+        // Show login panel
+        const loginPanel = vscode.window.createWebviewPanel(
+            'loginChatbox', // Identifier for the webview
+            'Login', // Title of the webview
+            vscode.ViewColumn.Beside, // Open in a column beside the active editor
             {
-                enableScripts: true // Enable JavaScript in the webview
+                enableScripts: true, // Enable JavaScript in the webview
+                retainContextWhenHidden: true, // Retain context to avoid refreshing
             }
         );
 
-        // Set the HTML content for the webview
-        panel.webview.html = getWebviewContent(panel.webview, context);
+        // Set the HTML content for the login webview
+        loginPanel.webview.html = getLoginPanel(loginPanel.webview, context);
+        console.log('Waiting for login..');
 
-        // Listen for changes in text editor selection
-        vscode.window.onDidChangeTextEditorSelection(event => {
-            const editor = event.textEditor; // Get the active text editor
-            const selection = editor.selection; // Get the current selection
-            const selectedText = editor.document.getText(selection); // Get the selected text
-
-            // If there is selected text, copy it to the clipboard
-            if (selectedText) {
-                vscode.env.clipboard.writeText(selectedText); // Automatically copy selected text to clipboard while preserving original formatting
-            }
-        });
-
-        // Handle messages received from the webview
-        panel.webview.onDidReceiveMessage(message => {
+        // Handle messages received from the login webview
+        loginPanel.webview.onDidReceiveMessage(async (message) => {
             switch (message.command) {
-                case 'requestCodePaste': // Check if the command is for pasting code
-                    pasteCodeToChatBox(panel); // Call function to paste code to the chat box
-                    return; // Exit the switch statement
+                case 'submit': {
+                    const { username, apiKey } = message;
+
+                    // Initialize a session with the server
+                    const sessionId = await initializeSession(username, apiKey);
+                    if (sessionId) {
+                        vscode.window.showInformationMessage(`Session initialized with ID: ${sessionId}`);
+                        console.log('Session ID saved:', sessionId);
+
+                        // Save session ID in the global state
+                        await context.globalState.update('sessionId', sessionId);
+
+                        // Dispose of the login panel
+                        loginPanel.dispose();
+
+                        // Open the chatbox panel
+                        openChatboxPanel(context, sessionId);
+                    } else {
+                        vscode.window.showErrorMessage('Login failed. Please try again.');
+                    }
+                    return;
+                }
             }
         });
     });
 
-    // Register a command to open the sidebar chat box
-    let disposable_sidebar = vscode.commands.registerCommand('chatbox.showSidebar', () => {
-        console.log('Sidebar chat box command executed');
-        // Create the view for the sidebar
-        const panel = vscode.window.createWebviewPanel(
-            'sidebarChatbox', // Identifier for the webview
-            'Sidebar Chat Box', // Title of the webview
-            vscode.ViewColumn.Beside, // Show the webview in the sidebar
-            {
-                enableScripts: true // Enable JavaScript in the webview
-            }
-        );
+    // Add the disposable command to the context subscriptions for cleanup
+    context.subscriptions.push(disposable);
+}
 
-        // Set the HTML content for the sidebar webview
-        panel.webview.html = getWebviewContent(panel.webview, context);
+// Function to open the chatbox panel
+function openChatboxPanel(context: vscode.ExtensionContext, sessionId: string) {
+    console.log('Sidebar chat box command executed');
 
-        // Listen for changes in text editor selection
-        vscode.window.onDidChangeTextEditorSelection(event => {
-            const editor = event.textEditor; // Get the active text editor
-            const selection = editor.selection; // Get the current selection
-            const selectedText = editor.document.getText(selection); // Get the selected text
+    // Create a new webview panel for the chatbox
+    const panel = vscode.window.createWebviewPanel(
+        'sidebarChatbox', // Identifier for the webview
+        'Sidebar Chat Box', // Title of the webview
+        vscode.ViewColumn.Beside, // Open in a column beside the active editor
+        {
+            enableScripts: true, // Enable JavaScript in the webview
+            retainContextWhenHidden: true, // Retain context to avoid refreshing
+        }
+    );
 
-            // If there is selected text, copy it to the clipboard
-            if (selectedText) {
-                vscode.env.clipboard.writeText(selectedText); // Automatically copy selected text to clipboard while preserving original formatting
-            }
-        });
+    // Set the HTML content for the webview
+    panel.webview.html = getWebviewContent(panel.webview, context);
 
-        // Handle messages received from the webview
-        panel.webview.onDidReceiveMessage(message => {
-            switch (message.command) {
-                case 'requestCodePaste': // Check if the command is for pasting code
-                    pasteCodeToChatBox(panel); // Call function to paste code to the chat box
-                    return; // Exit the switch statement
-            }
-        });
+    // Handle messages from the webview
+    panel.webview.onDidReceiveMessage((message) => {
+        if (message.command === 'ready') { // Webview signals readiness
+            panel.webview.postMessage({ command: 'setSessionId', sessionId: sessionId });
+        }
     });
 
-    // Function to paste code into the webview
-    async function pasteCodeToChatBox(panel: vscode.WebviewPanel) {
-        const code = await vscode.env.clipboard.readText(); // Read text from the clipboard
-        panel.webview.postMessage({ command: 'pasteCode', code: code }); // Send the code to the webview
+    console.log('Sending sessionId:', sessionId);
+
+    // Send session ID to the webview
+    panel.webview.postMessage({
+        command: 'setSessionId',
+        sessionId: sessionId,
+    });
+
+    // Listen for text selection changes in the editor
+    vscode.window.onDidChangeTextEditorSelection((event) => {
+        const editor = event.textEditor; // Get the active text editor
+        const selection = editor.selection; // Get the current selection
+        const selectedText = editor.document.getText(selection); // Get the selected text
+
+        // Copy selected text to clipboard
+        if (selectedText) {
+            vscode.env.clipboard.writeText(selectedText); // Automatically copy selected text
+        }
+    });
+
+    // Handle messages from the webview
+    panel.webview.onDidReceiveMessage((message) => {
+        switch (message.command) {
+            case 'requestCodePaste': // Handle code paste requests
+                pasteCodeToChatBox(panel); // Paste code into the chatbox
+                return;
+        }
+    });
+}
+
+// Interface representing the server API response
+interface ApiResponse {
+    message: boolean; // Indicates success or failure
+    session_id: string; // Session ID returned by the server
+    error?: string;   // Error message if the request fails
+}
+
+// Function to initialize a session with the server
+async function initializeSession(username: string, apiKey: string) {
+    try {
+        const response = await fetch('http://127.0.0.1:8080/api/initialize', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, apiKey }),
+        });
+
+        const data = await response.json() as ApiResponse;
+        if (response.ok) {
+            vscode.window.showInformationMessage(`Welcome, ${username}!`);
+            return data.session_id;
+        } else {
+            console.error(data.error || 'Failed to initialize session');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error initializing session:', error);
+        return false;
     }
+}
 
-    // Add the disposable commands to the context subscriptions for cleanup
-    context.subscriptions.push(disposable_standalone);
-    context.subscriptions.push(disposable_sidebar);
-
+// Function to paste code into the chatbox
+async function pasteCodeToChatBox(panel: vscode.WebviewPanel) {
+    const code = await vscode.env.clipboard.readText(); // Read text from the clipboard
+    panel.webview.postMessage({ command: 'pasteCode', code: code }); // Send the code to the webview
 }
 
 // Deactivate the extension

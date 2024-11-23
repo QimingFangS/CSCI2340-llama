@@ -34,12 +34,16 @@
     },
     "commands": [
       {
+        "command": "chatbox.login",
+        "title": "Activate chatbox by login"
+      },
+      {
         "command": "chatbox.open",
         "title": "Open Standalone Chat Box"
       },
       {
         "command": "chatbox.showSidebar",
-        "title": "Show Chat Assistant in Sidebar"
+        "title": "Show Chat Box in Sidebar"
       },
       {
         "command": "chatbox.pasteCode",

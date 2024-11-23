@@ -1,0 +1,144 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* General body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
+    margin: 0;
+    padding: 10px;
+    background-color: #1e1e1e; /* Dark background */
+    color: #ffffff; /* White font */
+}
+
+h1 {
+    text-align: center;
+    color: #005b8c; /* Dark blue theme */
+    font-size: 28px; /* Title font size */
+    margin-bottom: 20px; /* Header bottom margin */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* Chat box styling */
+.chat-box {
+    width: 100%;
+    height: 600px;
+    border: 1px solid #444; /* Border color */
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #2d2d2d; /* Chat box background color */
+    border-radius: 8px; /* Border fillet */
+    display: flex;
+    flex-direction: column; /* Vertical layout */
+    gap: 15px; /* The spacing between messages */
+    margin-top: 40px; /* Space from top */
+}
+
+/* Message styling */
+.message {
+    padding: 12px;
+    border-radius: 15px; /* Fillet corner */
+    max-width: 80%; /* Maximum width */
+    word-wrap: break-word; /* Auto wrap */
+    position: relative; /* Provides positioning for pseudo-elements */
+    white-space: pre-wrap; /* Keep whitespace and newlines */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
+    line-height: 1.6; /* Better line spacing for readability */
+}
+
+/* User message styling */
+.user-message {
+    background-color: #007acc; /* User message background color */
+    color: white; /* User message font color */
+    align-self: flex-end; /* Justify right */
+    margin: 5px 0;
+    font-weight: 500; /* Slightly bold for user messages */
+    font-size: 14px;
+}
+
+/* Code message styling */
+.code-message {
+    background-color: #4d4d4d; /* Code block background color */
+    color: #ffffff; /* Code block font color */
+    border: 1px solid #555; /* Code block border */
+    padding: 12px;
+    border-radius: 8px; /* Code block rounded corners */
+    white-space: pre-wrap; /* Keep whitespace and newlines */
+    word-wrap: break-word; /* Auto wrap */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
+    font-size: 14px; /* Slightly smaller font for code */
+}
+
+/* Input area styling */
+.input-area {
+    display: flex;
+    flex-direction: column; /* Vertical layout */
+    margin-top: 20px;
+}
+
+.input-area textarea {
+    flex: 1;
+    padding: 12px;
+    font-size: 16px;
+    resize: none; /* Disallow resizing */
+    border: 1px solid #444; /* Input box color */
+    border-radius: 8px; /* Rounded corners of input box */
+    background-color: #3d3d3d; /* Input box background color */
+    color: #ffffff; /* Input box font color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
+    line-height: 1.6; /* Better line spacing */
+}
+
+/* Button styling */
+.input-area button {
+    padding: 12px;
+    background-color: #00d4ff; /* Button background color */
+    color: white; /* Button font color */
+    border: none;
+    cursor: pointer;
+    margin-top: 10px; /* Button top margin */
+    border-radius: 8px; /* button rounded corners */
+    transition: background-color 0.3s; /* Button background color transition effect */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Consistent font */
+    font-weight: bold; /* Make button text bold */
+}
+
+.input-area button:hover {
+    background-color: #00a2cc; /* Button color on hover */
+}
+
+.input-area button:active {
+    background-color: #007fa0; /* Button color on active */
+}
+
+/* Loading spinner */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #4caf50;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 2s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Loading message styling */
+.message.loading-message {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+    font-style: italic;
+    text-align: center;
+    font-family: 'Roboto', sans-serif; /* Clean font for loading messages */
+    font-weight: 300; /* Lighter weight for loading */
+}

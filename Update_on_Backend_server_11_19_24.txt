@@ -4,6 +4,8 @@ Backend server 1: https://github.com/rili0214/Code-Generating-Project
 
 Backend server 2: https://github.com/rili0214/Code-Debugging-Project
 
+Backend database: https://github.com/rili0214/CGDP_DB
+
 Workflow of backend servers: https://docs.google.com/drawings/d/1_L3x8BSyXFxRXm1XaalxutYp5_VynZwe3JpWyMylrLg/edit?usp=sharing
 
 Note: I added the flask API this morning, and it works okay. I am running it on my local GitHub repo right now, when deploying 

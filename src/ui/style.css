@@ -94,3 +94,14 @@ code {
 
     white-space: pre-wrap;
 }
+
+.chat--language--button {
+    margin: 0.5em 0;
+    padding: 0.25em 0.5em;
+
+    border: var(--vscode-button-border);
+    border-radius: 0.25em;
+
+    color: var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+}

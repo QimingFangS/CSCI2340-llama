@@ -52,6 +52,25 @@ export function activate(context: vscode.ExtensionContext) {
                         vscode.window.showErrorMessage('Login failed. Please try again.');
                     }
                     return;
+
+                    // // Testing chatbox without true authentication
+                    // const sessionId = "debug";
+                    // if (sessionId) {
+                    //     vscode.window.showInformationMessage(`Session initialized with ID: ${sessionId}`);
+                    //     console.log('Session ID saved:', sessionId);
+
+                    //     // Save session ID in the global state
+                    //     await context.globalState.update('sessionId', sessionId);
+
+                    //     // Dispose of the login panel
+                    //     loginPanel.dispose();
+
+                    //     // Open the chatbox panel
+                    //     openChatboxPanel(context, sessionId);
+                    // } else {
+                    //     vscode.window.showErrorMessage('Login failed. Please try again.');
+                    // }
+                    // return;
                 }
             }
         });
@@ -59,6 +78,94 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Add the disposable command to the context subscriptions for cleanup
     context.subscriptions.push(disposable);
+
+    /**
+     * The following chunk of code adds a little icon, when a line with a llama is selected, it
+     * copies the code block. 
+     * 
+     * Unfortunately, vscode does not expose as API that allows for selections. There is an option
+     * to right click a line number and do it that way. 
+     * 
+     * If this behavior is not particularly desireable, feel free to comment this section out.
+     * 
+     * Author: Daniel
+     */
+
+    // Gutter decoration
+    const gutterDecorationType = vscode.window.createTextEditorDecorationType({
+        gutterIconPath: vscode.Uri.file(context.asAbsolutePath('resources/chatbox_circular.png')), // Replace with your icon path
+        gutterIconSize: 'contain', // Properly size the icon
+    });
+
+    // Map of decorations to their associated ranges
+    const decorationMap = new Map<number, vscode.FoldingRange>();
+
+    // Function to update gutter decorations
+    const updateDecorations = async () => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {return;}
+
+        // Get folding ranges (collapsible blocks) for the current document
+        const foldingRanges: vscode.FoldingRange[] | undefined = await vscode.commands.executeCommand(
+            'vscode.executeFoldingRangeProvider',
+            editor.document.uri
+        );
+
+        if (!foldingRanges) {return;}
+
+        const ranges: vscode.DecorationOptions[] = [];
+        decorationMap.clear();
+
+        // Create decorations for each folding range
+        foldingRanges.forEach((fold) => {
+            const start = new vscode.Position(fold.start, 0);
+            const range = new vscode.Range(start, start);
+
+            // Add a decoration option at the start of the foldable region
+            ranges.push({ range });
+            decorationMap.set(fold.start, fold); // Map line to its fold range
+        });
+
+        // Apply the decorations
+        editor.setDecorations(gutterDecorationType, ranges);
+    };
+
+    // Handle clicks in the gutter area
+    const handleGutterClick = vscode.window.onDidChangeTextEditorSelection((event) => {
+        const editor = vscode.window.activeTextEditor;
+        if (!editor) {return;}
+
+        // Get the clicked line
+        const clickedLine = event.selections[0].end.line;
+
+        // Check if the clicked line has a decoration (like breakpoints do)
+        const foldRange = decorationMap.get(clickedLine);
+        if (foldRange) {
+            const startLine = foldRange.start;
+            const endLine = foldRange.end;
+
+            // Copy the text within the folding range
+            const blockText = editor.document.getText(
+                new vscode.Range(
+                    new vscode.Position(startLine, 0),
+                    new vscode.Position(endLine, editor.document.lineAt(endLine).range.end.character)
+                )
+            );
+
+            vscode.env.clipboard.writeText(blockText);
+            vscode.window.showInformationMessage('Block copied to clipboard!');
+        }
+    });
+
+    // Update decorations on relevant events
+    vscode.window.onDidChangeActiveTextEditor(updateDecorations, null, context.subscriptions);
+    vscode.workspace.onDidChangeTextDocument(updateDecorations, null, context.subscriptions);
+
+    // Add the gutter click listener
+    context.subscriptions.push(handleGutterClick);
+
+    // Initial decoration update
+    updateDecorations();
 }
 
 // Function to open the chatbox panel

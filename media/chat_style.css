@@ -142,3 +142,16 @@ h1 {
     font-family: 'Roboto', sans-serif; /* Clean font for loading messages */
     font-weight: 300; /* Lighter weight for loading */
 }
+
+/* html code styling */
+code {
+    display: block;
+
+    width: fit-content;
+    padding: 0.5em;
+    margin: 0.5em;
+
+    line-height: 1.5em;
+
+    white-space: pre-wrap;
+}

@@ -7,7 +7,7 @@ import { getLoginPanel } from './loginContent';
 
 // Activate the extension
 export function activate(context: vscode.ExtensionContext) {
-    console.log('Congratulations, your extension "chatbox" is now active!');
+    console.log('Congratulations, your extension "llama co-pilot" is now active!');
 
     // Register a command to open the standalone chat box
     let disposable = vscode.commands.registerCommand('chatbox.login', () => {
@@ -47,7 +47,7 @@ export function activate(context: vscode.ExtensionContext) {
                         loginPanel.dispose();
 
                         // Open the chatbox panel
-                        openChatboxPanel(context, sessionId);
+                        openChatboxPanel(context, sessionId, username);
                     } else {
                         vscode.window.showErrorMessage('Login failed. Please try again.');
                     }
@@ -62,7 +62,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // Function to open the chatbox panel
-function openChatboxPanel(context: vscode.ExtensionContext, sessionId: string) {
+function openChatboxPanel(context: vscode.ExtensionContext, sessionId: string, username:string) {
     console.log('Sidebar chat box command executed');
 
     // Create a new webview panel for the chatbox
@@ -82,16 +82,8 @@ function openChatboxPanel(context: vscode.ExtensionContext, sessionId: string) {
     // Handle messages from the webview
     panel.webview.onDidReceiveMessage((message) => {
         if (message.command === 'ready') { // Webview signals readiness
-            panel.webview.postMessage({ command: 'setSessionId', sessionId: sessionId });
+            panel.webview.postMessage({ command: 'setSessionId', sessionId: sessionId, username: username});
         }
-    });
-
-    console.log('Sending sessionId:', sessionId);
-
-    // Send session ID to the webview
-    panel.webview.postMessage({
-        command: 'setSessionId',
-        sessionId: sessionId,
     });
 
     // Listen for text selection changes in the editor
@@ -112,6 +104,25 @@ function openChatboxPanel(context: vscode.ExtensionContext, sessionId: string) {
             case 'requestCodePaste': // Handle code paste requests
                 pasteCodeToChatBox(panel); // Paste code into the chatbox
                 return;
+        }
+    });
+
+    panel.webview.onDidReceiveMessage(async (message) => {
+        if (message.command === 'getFiles') {
+            // Find all code files in the workspace
+            // Python, C, C++, Java, C#, Javascript, TypeScript, Ruby, Go, Scala, PHP. HTML, CSS
+            const files = await vscode.workspace.findFiles('**/*.{py,c,cpp,cs,java,js,ts,rb,go,scala,php,html,css}', '**/node_modules/**');
+            const fileList = files.map((file) => file.fsPath);
+            // Send the file list to the webview
+            panel.webview.postMessage({ command: 'populateFiles', files: fileList });
+        } else if (message.command === 'readFile') {
+            const fileUri = vscode.Uri.file(message.filePath);
+            const fileContent = await vscode.workspace.fs.readFile(fileUri);
+            panel.webview.postMessage({
+                command: 'fileContent',
+                content: Buffer.from(fileContent).toString('utf8'),
+                fileName: message.filePath.split(/[/\\]/).pop()
+            });
         }
     });
 }

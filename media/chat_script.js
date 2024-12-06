@@ -196,6 +196,11 @@ async function sendMessage() {
             // });
 
             const data = await response.json();
+            
+            // debugging without backend
+            // const data = {
+            //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
+            // };
 
             // Remove the loading spinner
             chatBox.removeChild(generatingDiv);

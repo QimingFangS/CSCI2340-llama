@@ -360,3 +360,16 @@ select {
 #toggleSidebarIcon:hover {
     background-color: #444; /* Change background color on hover for interactivity feedback */
 }
+
+/* html code styling */
+code {
+    display: block;
+
+    width: fit-content;
+    padding: 0.5em;
+    margin: 0.5em;
+
+    line-height: 1.5em;
+
+    white-space: pre-wrap;
+}

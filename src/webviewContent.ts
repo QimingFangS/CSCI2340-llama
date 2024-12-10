@@ -92,7 +92,7 @@ export function getWebviewContent(webview: vscode.Webview, context: vscode.Exten
         <div class="input-area">
             <textarea id="userInput" placeholder="Send your code to LLAMA Co-Pilot" rows="5"></textarea>
             <button id="sendButton">Analyze</button>
-            <button id="getCodeButton">Get Code</button>
+            // <button id="getCodeButton">Get Code</button>
         </div>
     </div>
     <div id="toggleSidebarIcon">

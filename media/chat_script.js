@@ -168,23 +168,26 @@ async function sendMessage() {
 
         try {
             // Send user query to the server
-            const response = await fetch(`${API_URL}/get_response`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
-            });
             // const response = await fetch(`${API_URL}/get_response`, {
             //     method: "POST",
             //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         mode: selectedMode,
-            //         code: message,
-            //         language: selectedLanguage
-            //     })
+            //     body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
             // });
-
-            const data = await response.json();
-            
+            const response = await fetch(`${API_URL}/generate_output`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mode: selectedMode,
+                    code: message,
+                    language: selectedLanguage
+                })
+            });
+            const htmlContent = await response.text();
+            console.log('HTML Content:', htmlContent);
+            // debugging without backend
+            const data = {
+                "response": htmlContent
+            };
             // // debugging without backend
             // const data = {
             //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
@@ -289,6 +292,31 @@ function displayHTMLWithTypingEffect(element, html, callback) {
     typeCharacter();
 }
 
+/** 
+ * Event Listener: Open chat history
+ */
+toggleSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.add('collapsed');
+});
+
+/** 
+ * Event Listener: Close chat history
+ */
+toggleSidebarIcon.addEventListener('click', () => {
+    sidebar.classList.remove('collapsed');
+});
+
+/** 
+ * Event Listener: Close sidebar when clicking outside
+ */
+document.addEventListener('click', (event) => {
+    const isClickInsideSidebar = sidebar.contains(event.target);
+    const isClickToggleIcon = toggleSidebarIcon.contains(event.target);
+    const isClickToggleBtn = toggleSidebarBtn.contains(event.target);
+    if (!isClickInsideSidebar && !isClickToggleIcon && !isClickToggleBtn) {
+        sidebar.classList.add('collapsed');
+    }
+});
 
 /** 
  * Event Listener: Handle click on the file selection button to fetch available files

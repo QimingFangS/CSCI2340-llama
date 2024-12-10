@@ -5,6 +5,8 @@ import * as vscode from 'vscode';
 import { getWebviewContent } from './webviewContent';
 import { getLoginPanel } from './loginContent';
 
+const API_URL = "http://127.0.0.1:8000"; // Backend API URL
+
 // Activate the extension
 export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "llama co-pilot" is now active!');
@@ -52,25 +54,6 @@ export function activate(context: vscode.ExtensionContext) {
                         vscode.window.showErrorMessage('Login failed. Please try again.');
                     }
                     return;
-
-                    // // Testing chatbox without true authentication
-                    // const sessionId = "debug";
-                    // if (sessionId) {
-                    //     vscode.window.showInformationMessage(`Session initialized with ID: ${sessionId}`);
-                    //     console.log('Session ID saved:', sessionId);
-
-                    //     // Save session ID in the global state
-                    //     await context.globalState.update('sessionId', sessionId);
-
-                    //     // Dispose of the login panel
-                    //     loginPanel.dispose();
-
-                    //     // Open the chatbox panel
-                    //     openChatboxPanel(context, sessionId);
-                    // } else {
-                    //     vscode.window.showErrorMessage('Login failed. Please try again.');
-                    // }
-                    // return;
                 }
             }
         });
@@ -244,7 +227,7 @@ interface ApiResponse {
 // Function to initialize a session with the server
 async function initializeSession(username: string, apiKey: string) {
     try {
-        const response = await fetch('http://127.0.0.1:8080/api/initialize', {
+        const response = await fetch(`${API_URL}/initialize`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

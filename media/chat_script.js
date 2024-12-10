@@ -1,11 +1,12 @@
 // Acquire the Visual Studio Code API to interact with the extension
 const vscode = acquireVsCodeApi();
-const API_URL = "http://127.0.0.1:8080/api"; // Backend API URL
+// const API_URL = "http://127.0.0.1:8080/api"; // Backend API URL
+const API_URL = "http://127.0.0.1:8000"; // Backend API URL
 
 let sessionId = null; // Session ID for user authentication
 let selectedFileContent = "";
-let selectedMode = "basic"; // Default mode
-let selectedLanguage = "javascript"; //Default language
+let selectedMode = null; // Default mode null
+let selectedLanguage = null; //Default language null
 let currentUser = null;
 let currentSessionId = null; // Session ID for chat history
 
@@ -24,36 +25,8 @@ const userInput = document.getElementById('userInput'); // User input field
 const newChatBtn = document.getElementById('newChatBtn'); // Button to create a new chat
 const sendMessageBtn = document.getElementById('sendButton'); // Send message button
 
-/** 
- * Event Listener: Toggle sidebar visibility when clicking the sidebar toggle button
- */
-toggleSidebarBtn.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.toggle('collapsed'); // Toggle the 'collapsed' class to show/hide the sidebar
-});
-
-/** 
- * Event Listener: Forcefully expand the sidebar when clicking the sidebar icon
- */
-toggleSidebarIcon.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.remove('collapsed'); // Remove the 'collapsed' class to ensure sidebar is expanded
-});
-
-/** 
- * Event Listener: Close the sidebar when clicking outside of it or related buttons
- */
-document.addEventListener('click', (event) => {
-    const isClickInsideSidebar = sidebar.contains(event.target); // Check if click is within the sidebar
-    const isClickOnToggleButton = toggleSidebarBtn.contains(event.target); // Check if click is on the sidebar button
-    const isClickOnToggleIcon = toggleSidebarIcon.contains(event.target); // Check if click is on the sidebar icon
-
-    // If click is outside the sidebar, its toggle button, and the toggle icon, collapse the sidebar
-    if (!isClickInsideSidebar && !isClickOnToggleButton && !isClickOnToggleIcon) {
-        sidebar.classList.add('collapsed');
-    }
-});
-
+const messageBoxForLanguage = document.getElementById("messageBoxForLanguage");
+const messageBoxForMode = document.getElementById("messageBoxForMode");
 
 // Fetch the user's chat history from local storage
 function getHistory() {
@@ -154,8 +127,95 @@ function newSession() {
     renderHistory(); // Refresh the history UI
 }
 
-// Function to send user message to the server
+// Function to send user message to the server -- generate_output
 async function sendMessage() {
+    if (!selectedLanguage) {
+        messageBoxForLanguage.style.display = "block";
+        return;
+    }
+    if (!selectedMode) {
+        messageBoxForMode.style.display = "block";
+        return;
+    }
+    const input = document.getElementById('userInput');
+    const message = input.value + '\n' + '(' + fileDisplay.textContent + ')';
+    const prefix_message = input.value;
+    console.log(message);
+    if (message) {
+        const chatBox = document.getElementById('chatBox');
+
+        // Display the user's message in the chat box
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user-message'; // Add user message style
+        messageDiv.textContent = message; // Preserve original formatting
+        chatBox.appendChild(messageDiv);
+
+        // Create a loading spinner animation while waiting for a response
+        const generatingDiv = document.createElement('div');
+        generatingDiv.className = 'message generating-message'; // Loading message style
+        generatingDiv.innerHTML = '<span class="spinner"></span>';
+        chatBox.appendChild(generatingDiv);
+
+        input.value = ''; // Clear input field
+        fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
+        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest content
+
+        try {
+            // Send user query to the server
+            // const response = await fetch(`${API_URL}/get_response`, {
+            //     method: "POST",
+            //     headers: { "Content-Type": "application/json" },
+            //     body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
+            // });
+            const response = await fetch(`${API_URL}/generate_output`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mode: selectedMode,
+                    language: selectedLanguage,
+                    code: message,
+                })
+            });
+
+            const data = await response.json();
+
+            // Remove the loading spinner
+            chatBox.removeChild(generatingDiv);
+
+            // Display the server's response with a typing effect
+            const botMessageDiv = document.createElement('div');
+            botMessageDiv.className = 'message code-message';
+            chatBox.appendChild(botMessageDiv);
+            displayTextWithTypingEffect(botMessageDiv, data.response);
+            const history = getHistory();
+            // currentSessionId = 'chat-' + Date.now();
+            let session = history.find(s => s.id === currentSessionId);
+            if (!session) {
+                session = { id: currentSessionId, timestamp: new Date().toISOString(), messages: [] };
+                history.push(session);
+            } else {
+                console.log('Previous chat found! Adding chat history to it now...');
+            }
+            session.messages.push({ role: 'user', content: message + '\n' + selectedFileContent });
+            session.messages.push({ role: 'bot', content: data.response }); // save bot response
+            saveHistory(currentSessionId, session.messages);
+
+        } catch (error) {
+            // Handle errors and display a message in the chat box
+            console.error("Error getting response:", error);
+            chatBox.removeChild(generatingDiv);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'message code-message';
+            errorDiv.textContent = 'Error: ' + error.message;
+            chatBox.appendChild(errorDiv);
+        }
+    } else if (!prefix_message) {
+        console.error("No Input!");
+    }
+}
+
+// Function to send user message to the server -- get_similar_code
+async function getSimilarCode() {
     const input = document.getElementById('userInput');
     const message = input.value + '\n' + '(' + fileDisplay.textContent + ')';
     console.log(message);
@@ -180,27 +240,15 @@ async function sendMessage() {
 
         try {
             // Send user query to the server
-            const response = await fetch(`${API_URL}/get_response`, {
+            const response = await fetch(`${API_URL}/get_similar_code`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
+                body: JSON.stringify({
+                    code: message,
+                })
             });
-            // const response = await fetch(`${API_URL}/get_response`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         mode: selectedMode,
-            //         code: message,
-            //         language: selectedLanguage
-            //     })
-            // });
 
             const data = await response.json();
-            
-            // debugging without backend
-            // const data = {
-            //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
-            // };
 
             // Remove the loading spinner
             chatBox.removeChild(generatingDiv);
@@ -255,6 +303,35 @@ function displayTextWithTypingEffect(element, text, callback) {
     }, 10); // Typing speed: 10ms per character
 }
 
+/** 
+ * Event Listener: Toggle sidebar visibility when clicking the sidebar toggle button
+ */
+toggleSidebarBtn.addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling up to `document`
+    sidebar.classList.toggle('collapsed'); // Toggle the 'collapsed' class to show/hide the sidebar
+});
+
+/** 
+ * Event Listener: Forcefully expand the sidebar when clicking the sidebar icon
+ */
+toggleSidebarIcon.addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling up to `document`
+    sidebar.classList.remove('collapsed'); // Remove the 'collapsed' class to ensure sidebar is expanded
+});
+
+/** 
+ * Event Listener: Close the sidebar when clicking outside of it or related buttons
+ */
+document.addEventListener('click', (event) => {
+    const isClickInsideSidebar = sidebar.contains(event.target); // Check if click is within the sidebar
+    const isClickOnToggleButton = toggleSidebarBtn.contains(event.target); // Check if click is on the sidebar button
+    const isClickOnToggleIcon = toggleSidebarIcon.contains(event.target); // Check if click is on the sidebar icon
+
+    // If click is outside the sidebar, its toggle button, and the toggle icon, collapse the sidebar
+    if (!isClickInsideSidebar && !isClickOnToggleButton && !isClickOnToggleIcon) {
+        sidebar.classList.add('collapsed');
+    }
+});
 
 /** 
  * Event Listener: Handle click on the file selection button to fetch available files
@@ -282,6 +359,14 @@ document.getElementById('fileSelect').addEventListener('change', (event) => {
 document.getElementById('sendButton').addEventListener('click', (event) => {
     event.stopPropagation(); // Prevent event from bubbling up to parent elements
     sendMessage(); // Call the sendMessage function
+});
+
+/** 
+ * Event Listener: Trigger message sending on clicking the get code button
+ */
+document.getElementById('getCodeButton').addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling up to parent elements
+    getSimilarCode(); // Call the getSimilarCode function
 });
 
 /** 
@@ -382,37 +467,50 @@ window.addEventListener('message', (event) => {
             // Determine the language type based on the file extension
             switch (fileDisplay.textContent.split('.').pop()) {
                 case 'py':
-                    selectedLanguage = 'python';
-                    break;
-                case 'js':
-                    selectedLanguage = 'javascript';
-                    break;
-                case 'ts':
-                    selectedLanguage = 'typeScript';
+                    selectedLanguage = 'Python';
                     break;
                 case 'cpp':
-                    selectedLanguage = 'cpp';
+                    selectedLanguage = 'C++';
                     break;
                 case 'c':
-                    selectedLanguage = 'c';
+                    selectedLanguage = 'C';
+                    break;
+                case 'cs':
+                    selectedLanguage = 'C#';
+                    break;
+                case 'java':
+                    selectedLanguage = 'Java';
+                    break;
+                case 'js':
+                    selectedLanguage = 'JavaScript';
+                    break;
+                case 'ts':
+                    selectedLanguage = 'TypeScript';
+                    break;
+                case 'rb':
+                    selectedLanguage = 'Ruby';
                     break;
                 case 'go':
-                    selectedLanguage = 'go';
+                    selectedLanguage = 'Go';
                     break;
                 case 'scala':
-                    selectedLanguage = 'scala';
+                    selectedLanguage = 'Scala';
                     break;
                 case 'php':
-                    selectedLanguage = 'php';
-                    break;
-                case 'html':
-                    selectedLanguage = 'html';
+                    selectedLanguage = 'PHP';
                     break;
                 case 'css':
-                    selectedLanguage = 'css';
+                    selectedLanguage = 'CSS';
+                    break;
+                case 'html':
+                    selectedLanguage = 'HTML';
+                    break;
+                case 'dfy':
+                    selectedLanguage = 'Dafny';
                     break;
                 default:
-                    selectedLanguage = 'javascript'; // Fallback to JavaScript if unknown
+                    selectedLanguage = '';
+                    break;
             }
             break;
 

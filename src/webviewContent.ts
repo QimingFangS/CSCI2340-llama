@@ -25,7 +25,7 @@ export function getWebviewContent(webview: vscode.Webview, context: vscode.Exten
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self' http://127.0.0.1:8080; style-src ${cspSource}; script-src ${cspSource};">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; connect-src 'self' http://127.0.0.1:8000; style-src ${cspSource}; script-src ${cspSource};">
     <title>Llama Co-pilot</title>
     <link rel="stylesheet" href="${styleUri}">
 </head>
@@ -51,42 +51,50 @@ export function getWebviewContent(webview: vscode.Webview, context: vscode.Exten
             <select id="fileSelect">
                 <option value="">--Choose a file--</option>
             </select>
-            <div id="fileDisplay">--No file selected--</div> <!-- 显示文件选择状态 -->
+            <div id="fileDisplay">--No file selected--</div>
         </div>
         <div class="mode-language-select">
             <div class="dropdowns">
                 <label for="modeSelect">Select Mode:</label>
                 <select id="modeSelect">
-                    <option value="basic">Basic</option>
-                    <option value="advanced">Advanced</option>
+                    <option value=null>---</option>
+                    <option value="mode_1">Mode 1</option>
+                    <option value="mode_2">Mode 2</option>
                 </select>
             </div>
             <div class="dropdowns">
                 <label for="languageSelect">Select Language:</label>
                 <select id="languageSelect">
-                    <option value="javascript">JavaScript</option>
-                    <option value="typescript">TypeScript</option>
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="cpp">C++</option>
-                    <option value="c">C</option>
-                    <option value="c#">C#</option>
-                    <option value="ruby">Ruby</option>
-                    <option value="go">Go</option>
-                    <option value="scala">Scala</option>
-                    <option value="php">PHP</option>
-                    <option value="html">HTML</option>
-                    <option value="css">CSS</option>
+                    <option value=null>----</option>
+                    <option value="Python">Python</option>
+                    <option value="C">C</option>
+                    <option value="C++">C++</option>
+                    <option value="C#">C#</option>
+                    <option value="Java">Java</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="TypeScript">TypeScript</option>
+                    <option value="Ruby">Ruby</option>
+                    <option value="Go">Go</option>
+                    <option value="Scala">Scala</option>
+                    <option value="PHP">PHP</option>
+                    <option value="CSS">CSS</option>
+                    <option value="HTML">HTML</option>
+                    <option value="Dafny">Dafny</option>
                 </select>
             </div>
         </div>
-
+        <div id="messageBoxForLanguage" style="display:none; padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+            Please select Language!
+        </div>
+        <div id="messageBoxForMode" style="display:none; padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
+            Please select Mode!
+        </div>
         <div class="input-area">
             <textarea id="userInput" placeholder="Send your code to LLAMA Co-Pilot" rows="5"></textarea>
-            <button id="sendButton">Send</button>
+            <button id="sendButton">Analyze</button>
+            <button id="getCodeButton">Get Code</button>
         </div>
     </div>
-    <!-- 小图标按钮 -->
     <div id="toggleSidebarIcon">
         ☰
     </div>

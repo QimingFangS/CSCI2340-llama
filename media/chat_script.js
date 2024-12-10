@@ -158,7 +158,13 @@ function newSession() {
 // Function to send user message to the server
 async function sendMessage() {
     const input = document.getElementById('userInput');
-    const message = input.value + '\n' + '(' + fileDisplay.textContent + ')';
+
+    // file display
+    var message = input.value;
+    if (fileDisplay.textContent !== '--No file selected--') {
+        message += '\n\n<code>' + fileDisplay.textContent + '</code>';
+    }
+
     console.log(message);
     if (message) {
         const chatBox = document.getElementById('chatBox');
@@ -166,7 +172,8 @@ async function sendMessage() {
         // Display the user's message in the chat box
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message user-message'; // Add user message style
-        messageDiv.textContent = message; // Preserve original formatting
+        // messageDiv.textContent = message; // Preserve original formatting
+        messageDiv.innerHTML = message; // Format using html code
         chatBox.appendChild(messageDiv);
 
         // Create a loading spinner animation while waiting for a response
@@ -176,7 +183,7 @@ async function sendMessage() {
         chatBox.appendChild(generatingDiv);
 
         input.value = ''; // Clear input field
-        fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
+        // fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
         chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest content
 
         try {

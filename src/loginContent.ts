@@ -10,12 +10,17 @@ import * as vscode from 'vscode';
 export function getLoginPanel(webview: vscode.Webview, context: vscode.ExtensionContext): string {
     // Generate a URI for the CSS file to ensure it's properly accessible in the Webview
     const styleUri = webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'media', 'login_style.css') // Path to the CSS file
+        vscode.Uri.joinPath(context.extensionUri, 'media', 'login_style_2.css') // Path to the CSS file
     );
 
     // Generate a URI for the JavaScript file to ensure it's properly accessible in the Webview
     const scriptUri = webview.asWebviewUri(
         vscode.Uri.joinPath(context.extensionUri, 'media', 'login_script.js') // Path to the JavaScript file
+    );
+
+    // LLAMA image link
+    const llamaUri = webview.asWebviewUri(
+        vscode.Uri.joinPath(context.extensionUri, 'resources', 'chatbox_icon.svg') // Path to the JavaScript file
     );
 
     // Return the HTML content for the Webview
@@ -32,6 +37,7 @@ export function getLoginPanel(webview: vscode.Webview, context: vscode.Extension
             <div class="login-container">
                 <h1>Login</h1>
                 <!-- Login form with fields for username and API key -->
+                <img class="icon" src="${llamaUri}" />
                 <form id="login-form">
                     <label for="username">Username</label>
                     <input type="text" id="username" name="username" required>

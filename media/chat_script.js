@@ -120,7 +120,8 @@ function loadSession(sessionId) {
         chatBox.innerHTML = ''; // Clear the current chatbox
         session.messages.forEach(msg => {
             const msgDiv = document.createElement('div');
-            msgDiv.textContent = `${msg.content}`;
+            // msgDiv.textContent = `${msg.content}`;
+            msgDiv.innerHTML = msg.content;
             // Style the message depending on role
             msgDiv.className = msg.role === 'user' ? 'message user-message' : 'message code-message';
             chatBox.appendChild(msgDiv); // Add message to the chat UI

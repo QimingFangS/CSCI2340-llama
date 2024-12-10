@@ -93,7 +93,8 @@ function loadSession(sessionId) {
         chatBox.innerHTML = ''; // Clear the current chatbox
         session.messages.forEach(msg => {
             const msgDiv = document.createElement('div');
-            msgDiv.textContent = `${msg.content}`;
+            // msgDiv.textContent = `${msg.content}`;
+            msgDiv.innerHTML = msg.content;
             // Style the message depending on role
             msgDiv.className = msg.role === 'user' ? 'message user-message' : 'message code-message';
             chatBox.appendChild(msgDiv); // Add message to the chat UI
@@ -129,6 +130,7 @@ function newSession() {
 
 // Function to send user message to the server -- generate_output
 async function sendMessage() {
+    const input = document.getElementById('userInput');
     if (!selectedLanguage) {
         messageBoxForLanguage.style.display = "block";
         return;
@@ -137,9 +139,12 @@ async function sendMessage() {
         messageBoxForMode.style.display = "block";
         return;
     }
-    const input = document.getElementById('userInput');
-    const message = input.value + '\n' + '(' + fileDisplay.textContent + ')';
-    const prefix_message = input.value;
+    // file display
+    var message = input.value;
+    if (fileDisplay.textContent !== '--No file selected--') {
+        message += '\n\n<code>' + fileDisplay.textContent + '</code>';
+    }
+
     console.log(message);
     if (message) {
         const chatBox = document.getElementById('chatBox');
@@ -147,7 +152,8 @@ async function sendMessage() {
         // Display the user's message in the chat box
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message user-message'; // Add user message style
-        messageDiv.textContent = message; // Preserve original formatting
+        // messageDiv.textContent = message; // Preserve original formatting
+        messageDiv.innerHTML = message; // Format using html code
         chatBox.appendChild(messageDiv);
 
         // Create a loading spinner animation while waiting for a response
@@ -157,27 +163,32 @@ async function sendMessage() {
         chatBox.appendChild(generatingDiv);
 
         input.value = ''; // Clear input field
-        fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
+        // fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
         chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest content
 
         try {
             // Send user query to the server
+            const response = await fetch(`${API_URL}/get_response`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
+            });
             // const response = await fetch(`${API_URL}/get_response`, {
             //     method: "POST",
             //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
+            //     body: JSON.stringify({
+            //         mode: selectedMode,
+            //         code: message,
+            //         language: selectedLanguage
+            //     })
             // });
-            const response = await fetch(`${API_URL}/generate_output`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    mode: selectedMode,
-                    language: selectedLanguage,
-                    code: message,
-                })
-            });
 
             const data = await response.json();
+            
+            // // debugging without backend
+            // const data = {
+            //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
+            // };
 
             // Remove the loading spinner
             chatBox.removeChild(generatingDiv);
@@ -186,78 +197,8 @@ async function sendMessage() {
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'message code-message';
             chatBox.appendChild(botMessageDiv);
-            displayTextWithTypingEffect(botMessageDiv, data.response);
-            const history = getHistory();
-            // currentSessionId = 'chat-' + Date.now();
-            let session = history.find(s => s.id === currentSessionId);
-            if (!session) {
-                session = { id: currentSessionId, timestamp: new Date().toISOString(), messages: [] };
-                history.push(session);
-            } else {
-                console.log('Previous chat found! Adding chat history to it now...');
-            }
-            session.messages.push({ role: 'user', content: message + '\n' + selectedFileContent });
-            session.messages.push({ role: 'bot', content: data.response }); // save bot response
-            saveHistory(currentSessionId, session.messages);
-
-        } catch (error) {
-            // Handle errors and display a message in the chat box
-            console.error("Error getting response:", error);
-            chatBox.removeChild(generatingDiv);
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'message code-message';
-            errorDiv.textContent = 'Error: ' + error.message;
-            chatBox.appendChild(errorDiv);
-        }
-    } else if (!prefix_message) {
-        console.error("No Input!");
-    }
-}
-
-// Function to send user message to the server -- get_similar_code
-async function getSimilarCode() {
-    const input = document.getElementById('userInput');
-    const message = input.value + '\n' + '(' + fileDisplay.textContent + ')';
-    console.log(message);
-    if (message) {
-        const chatBox = document.getElementById('chatBox');
-
-        // Display the user's message in the chat box
-        const messageDiv = document.createElement('div');
-        messageDiv.className = 'message user-message'; // Add user message style
-        messageDiv.textContent = message; // Preserve original formatting
-        chatBox.appendChild(messageDiv);
-
-        // Create a loading spinner animation while waiting for a response
-        const generatingDiv = document.createElement('div');
-        generatingDiv.className = 'message generating-message'; // Loading message style
-        generatingDiv.innerHTML = '<span class="spinner"></span>';
-        chatBox.appendChild(generatingDiv);
-
-        input.value = ''; // Clear input field
-        fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
-        chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest content
-
-        try {
-            // Send user query to the server
-            const response = await fetch(`${API_URL}/get_similar_code`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    code: message,
-                })
-            });
-
-            const data = await response.json();
-
-            // Remove the loading spinner
-            chatBox.removeChild(generatingDiv);
-
-            // Display the server's response with a typing effect
-            const botMessageDiv = document.createElement('div');
-            botMessageDiv.className = 'message code-message';
-            chatBox.appendChild(botMessageDiv);
-            displayTextWithTypingEffect(botMessageDiv, data.response);
+            // displayTextWithTypingEffect(botMessageDiv, data.response);
+            displayHTMLWithTypingEffect(botMessageDiv, data.response);
             const history = getHistory();
             // currentSessionId = 'chat-' + Date.now();
             let session = history.find(s => s.id === currentSessionId);
@@ -303,35 +244,51 @@ function displayTextWithTypingEffect(element, text, callback) {
     }, 10); // Typing speed: 10ms per character
 }
 
-/** 
- * Event Listener: Toggle sidebar visibility when clicking the sidebar toggle button
- */
-toggleSidebarBtn.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.toggle('collapsed'); // Toggle the 'collapsed' class to show/hide the sidebar
-});
+// Function to display HTML with a typing effect
+function displayHTMLWithTypingEffect(element, html, callback) {
+    const parser = new DOMParser();
+    const parsedDoc = parser.parseFromString(html, 'text/html');
+    const nodes = Array.from(parsedDoc.body.childNodes); // Get all child nodes of the parsed HTML
+    let currentNodeIndex = 0; // Track which node we're currently typing
+    let charIndex = 0; // Track character position within text nodes
 
-/** 
- * Event Listener: Forcefully expand the sidebar when clicking the sidebar icon
- */
-toggleSidebarIcon.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.remove('collapsed'); // Remove the 'collapsed' class to ensure sidebar is expanded
-});
+    function typeCharacter() {
+        if (currentNodeIndex >= nodes.length) {
+            if (callback) {callback();} // Call the callback when done
+            return;
+        }
 
-/** 
- * Event Listener: Close the sidebar when clicking outside of it or related buttons
- */
-document.addEventListener('click', (event) => {
-    const isClickInsideSidebar = sidebar.contains(event.target); // Check if click is within the sidebar
-    const isClickOnToggleButton = toggleSidebarBtn.contains(event.target); // Check if click is on the sidebar button
-    const isClickOnToggleIcon = toggleSidebarIcon.contains(event.target); // Check if click is on the sidebar icon
+        const currentNode = nodes[currentNodeIndex];
 
-    // If click is outside the sidebar, its toggle button, and the toggle icon, collapse the sidebar
-    if (!isClickInsideSidebar && !isClickOnToggleButton && !isClickOnToggleIcon) {
-        sidebar.classList.add('collapsed');
+        if (currentNode.nodeType === Node.TEXT_NODE) {
+            // Handle text nodes
+            const text = currentNode.textContent;
+            if (charIndex < text.length) {
+                element.innerHTML += text[charIndex];
+                charIndex++;
+            } else {
+                charIndex = 0; // Reset for the next node
+                currentNodeIndex++;
+            }
+        } else if (currentNode.nodeType === Node.ELEMENT_NODE) {
+            // Handle element nodes
+            const newElement = document.createElement(currentNode.nodeName);
+            Array.from(currentNode.attributes).forEach(attr => {
+                newElement.setAttribute(attr.name, attr.value);
+            });
+            element.appendChild(newElement); // Append the element to the parent
+
+            // Recursively type the child nodes of the current element
+            currentNodeIndex++; // Move to the next node
+            displayHTMLWithTypingEffect(newElement, currentNode.innerHTML, typeCharacter);
+            return; // Exit to let the recursion handle typing the child content
+        }
+
+        setTimeout(typeCharacter, 10); // Typing speed: 10ms per character
     }
-});
+    typeCharacter();
+}
+
 
 /** 
  * Event Listener: Handle click on the file selection button to fetch available files

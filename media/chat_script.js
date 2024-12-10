@@ -197,7 +197,7 @@ async function sendMessage() {
 
             const data = await response.json();
             
-            // debugging without backend
+            // // debugging without backend
             // const data = {
             //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
             // };
@@ -209,7 +209,8 @@ async function sendMessage() {
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'message code-message';
             chatBox.appendChild(botMessageDiv);
-            displayTextWithTypingEffect(botMessageDiv, data.response);
+            // displayTextWithTypingEffect(botMessageDiv, data.response);
+            displayHTMLWithTypingEffect(botMessageDiv, data.response);
             const history = getHistory();
             // currentSessionId = 'chat-' + Date.now();
             let session = history.find(s => s.id === currentSessionId);
@@ -253,6 +254,51 @@ function displayTextWithTypingEffect(element, text, callback) {
             }
         }
     }, 10); // Typing speed: 10ms per character
+}
+
+// Function to display HTML with a typing effect
+function displayHTMLWithTypingEffect(element, html, callback) {
+    const parser = new DOMParser();
+    const parsedDoc = parser.parseFromString(html, 'text/html');
+    const nodes = Array.from(parsedDoc.body.childNodes); // Get all child nodes of the parsed HTML
+    let currentNodeIndex = 0; // Track which node we're currently typing
+    let charIndex = 0; // Track character position within text nodes
+
+    function typeCharacter() {
+        if (currentNodeIndex >= nodes.length) {
+            if (callback) {callback();} // Call the callback when done
+            return;
+        }
+
+        const currentNode = nodes[currentNodeIndex];
+
+        if (currentNode.nodeType === Node.TEXT_NODE) {
+            // Handle text nodes
+            const text = currentNode.textContent;
+            if (charIndex < text.length) {
+                element.innerHTML += text[charIndex];
+                charIndex++;
+            } else {
+                charIndex = 0; // Reset for the next node
+                currentNodeIndex++;
+            }
+        } else if (currentNode.nodeType === Node.ELEMENT_NODE) {
+            // Handle element nodes
+            const newElement = document.createElement(currentNode.nodeName);
+            Array.from(currentNode.attributes).forEach(attr => {
+                newElement.setAttribute(attr.name, attr.value);
+            });
+            element.appendChild(newElement); // Append the element to the parent
+
+            // Recursively type the child nodes of the current element
+            currentNodeIndex++; // Move to the next node
+            displayHTMLWithTypingEffect(newElement, currentNode.innerHTML, typeCharacter);
+            return; // Exit to let the recursion handle typing the child content
+        }
+
+        setTimeout(typeCharacter, 10); // Typing speed: 10ms per character
+    }
+    typeCharacter();
 }
 
 

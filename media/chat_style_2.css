@@ -1,0 +1,148 @@
+/* Reset default styles */
+* {
+    margin    : 0;
+    padding   : 0;
+    box-sizing: border-box;
+}
+
+/* Code styling */
+code {
+    display    : block;
+    width      : fit-content;
+    padding    : 0.75em;
+    margin     : 0.5em;
+    line-height: 1.5em;
+    white-space: pre-wrap;
+}
+
+/* General styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin     : 0;
+    padding    : 10px;
+}
+
+h1 {
+    color         : var(--vscode-button-background);
+    margin        : 0.75em 0;
+    letter-spacing: 2px;
+}
+
+/* Input styling */
+.input-area {
+    display       : flex;
+    flex-direction: row;
+    margin-top    : 1em;
+
+    align-items: center;
+}
+
+
+
+.input-area textarea {
+    flex       : 1;
+    box-sizing : border-box;
+    resize     : none;
+    font-family: inherit;
+
+    margin : 1em;
+    padding: 0.75em 1em;
+
+    color           : var(--vscode-input-foreground);
+    background-color: var(--vscode-input-background);
+    border-radius   : 0.5em;
+
+    line-height: 1.125rem;
+}
+
+.input-area button {
+    cursor: pointer;
+
+    border          : var(--vscode-button-border);
+    border-radius   : 0.5em;
+    background-color: var(--vscode-button-background);
+
+    font-weight: bold;
+
+    color  : var(--vscode-button-foreground);
+    padding: 0.85em;
+    margin : 0.5em;
+    height : fit-content;
+
+    transition: background-color 0.3s;
+}
+
+.input-area button:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+.input-area button:active {
+    background-color: var(--vscode-button-activeBackground);
+}
+
+/* Message styling */
+.message {
+    padding      : 0.75em;
+    border-radius: 0.5em;
+    margin       : 0.25em 0;
+    max-width    : 80%;
+    word-wrap    : break-word;
+    position     : relative;
+    white-space  : pre-wrap;
+}
+
+.user-message {
+    color           : var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+    align-self      : flex-end;
+}
+
+.code-message {
+    display       : flex;
+    flex-direction: column;
+    gap           : 1em;
+    line-height   : 1.125rem;
+}
+
+/* Chat box styling */
+.chat-box {
+    width         : 100%;
+    height        : 65vh;
+    padding       : 15px;
+    overflow-y    : auto;
+    display       : flex;
+    flex-direction: column;
+}
+
+/* Loading spinner */
+.spinner {
+    border       : 4px solid rgba(0, 0, 0, 0.1);
+    border-top   : 4px solid #4caf50;
+    border-radius: 50%;
+    width        : 20px;
+    height       : 20px;
+    animation    : spin 2s linear infinite;
+    display      : inline-block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading message styling */
+.message.loading-message {
+    display        : flex;
+    align-items    : center;
+    justify-content: flex-start;
+    margin-top     : 10px;
+    font-style     : italic;
+    text-align     : center;
+    font-family    : 'Roboto', sans-serif;
+    font-weight    : 300;
+}

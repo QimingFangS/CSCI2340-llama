@@ -1,11 +1,12 @@
 // Acquire the Visual Studio Code API to interact with the extension
 const vscode = acquireVsCodeApi();
-const API_URL = "http://127.0.0.1:8080/api"; // Backend API URL
+// const API_URL = "http://127.0.0.1:8080/api"; // Backend API URL
+const API_URL = "http://127.0.0.1:8000"; // Backend API URL
 
 let sessionId = null; // Session ID for user authentication
 let selectedFileContent = "";
-let selectedMode = "basic"; // Default mode
-let selectedLanguage = "javascript"; //Default language
+let selectedMode = null; // Default mode null
+let selectedLanguage = null; //Default language null
 let currentUser = null;
 let currentSessionId = null; // Session ID for chat history
 
@@ -24,36 +25,8 @@ const userInput = document.getElementById('userInput'); // User input field
 const newChatBtn = document.getElementById('newChatBtn'); // Button to create a new chat
 const sendMessageBtn = document.getElementById('sendButton'); // Send message button
 
-/** 
- * Event Listener: Toggle sidebar visibility when clicking the sidebar toggle button
- */
-toggleSidebarBtn.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.toggle('collapsed'); // Toggle the 'collapsed' class to show/hide the sidebar
-});
-
-/** 
- * Event Listener: Forcefully expand the sidebar when clicking the sidebar icon
- */
-toggleSidebarIcon.addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to `document`
-    sidebar.classList.remove('collapsed'); // Remove the 'collapsed' class to ensure sidebar is expanded
-});
-
-/** 
- * Event Listener: Close the sidebar when clicking outside of it or related buttons
- */
-document.addEventListener('click', (event) => {
-    const isClickInsideSidebar = sidebar.contains(event.target); // Check if click is within the sidebar
-    const isClickOnToggleButton = toggleSidebarBtn.contains(event.target); // Check if click is on the sidebar button
-    const isClickOnToggleIcon = toggleSidebarIcon.contains(event.target); // Check if click is on the sidebar icon
-
-    // If click is outside the sidebar, its toggle button, and the toggle icon, collapse the sidebar
-    if (!isClickInsideSidebar && !isClickOnToggleButton && !isClickOnToggleIcon) {
-        sidebar.classList.add('collapsed');
-    }
-});
-
+const messageBoxForLanguage = document.getElementById("messageBoxForLanguage");
+const messageBoxForMode = document.getElementById("messageBoxForMode");
 
 // Fetch the user's chat history from local storage
 function getHistory() {
@@ -155,10 +128,17 @@ function newSession() {
     renderHistory(); // Refresh the history UI
 }
 
-// Function to send user message to the server
+// Function to send user message to the server -- generate_output
 async function sendMessage() {
     const input = document.getElementById('userInput');
-
+    if (!selectedLanguage) {
+        messageBoxForLanguage.style.display = "block";
+        return;
+    }
+    if (!selectedMode) {
+        messageBoxForMode.style.display = "block";
+        return;
+    }
     // file display
     var message = input.value;
     if (fileDisplay.textContent !== '--No file selected--') {
@@ -188,23 +168,26 @@ async function sendMessage() {
 
         try {
             // Send user query to the server
-            const response = await fetch(`${API_URL}/get_response`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
-            });
             // const response = await fetch(`${API_URL}/get_response`, {
             //     method: "POST",
             //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({
-            //         mode: selectedMode,
-            //         code: message,
-            //         language: selectedLanguage
-            //     })
+            //     body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
             // });
-
-            const data = await response.json();
-            
+            const response = await fetch(`${API_URL}/generate_output`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    mode: selectedMode,
+                    code: message,
+                    language: selectedLanguage
+                })
+            });
+            const htmlContent = await response.text();
+            console.log('HTML Content:', htmlContent);
+            // debugging without backend
+            const data = {
+                "response": htmlContent
+            };
             // // debugging without backend
             // const data = {
             //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
@@ -309,6 +292,31 @@ function displayHTMLWithTypingEffect(element, html, callback) {
     typeCharacter();
 }
 
+/** 
+ * Event Listener: Open chat history
+ */
+toggleSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.add('collapsed');
+});
+
+/** 
+ * Event Listener: Close chat history
+ */
+toggleSidebarIcon.addEventListener('click', () => {
+    sidebar.classList.remove('collapsed');
+});
+
+/** 
+ * Event Listener: Close sidebar when clicking outside
+ */
+document.addEventListener('click', (event) => {
+    const isClickInsideSidebar = sidebar.contains(event.target);
+    const isClickToggleIcon = toggleSidebarIcon.contains(event.target);
+    const isClickToggleBtn = toggleSidebarBtn.contains(event.target);
+    if (!isClickInsideSidebar && !isClickToggleIcon && !isClickToggleBtn) {
+        sidebar.classList.add('collapsed');
+    }
+});
 
 /** 
  * Event Listener: Handle click on the file selection button to fetch available files
@@ -336,6 +344,14 @@ document.getElementById('fileSelect').addEventListener('change', (event) => {
 document.getElementById('sendButton').addEventListener('click', (event) => {
     event.stopPropagation(); // Prevent event from bubbling up to parent elements
     sendMessage(); // Call the sendMessage function
+});
+
+/** 
+ * Event Listener: Trigger message sending on clicking the get code button
+ */
+document.getElementById('getCodeButton').addEventListener('click', (event) => {
+    event.stopPropagation(); // Prevent event from bubbling up to parent elements
+    getSimilarCode(); // Call the getSimilarCode function
 });
 
 /** 
@@ -436,37 +452,50 @@ window.addEventListener('message', (event) => {
             // Determine the language type based on the file extension
             switch (fileDisplay.textContent.split('.').pop()) {
                 case 'py':
-                    selectedLanguage = 'python';
-                    break;
-                case 'js':
-                    selectedLanguage = 'javascript';
-                    break;
-                case 'ts':
-                    selectedLanguage = 'typeScript';
+                    selectedLanguage = 'Python';
                     break;
                 case 'cpp':
-                    selectedLanguage = 'cpp';
+                    selectedLanguage = 'C++';
                     break;
                 case 'c':
-                    selectedLanguage = 'c';
+                    selectedLanguage = 'C';
+                    break;
+                case 'cs':
+                    selectedLanguage = 'C#';
+                    break;
+                case 'java':
+                    selectedLanguage = 'Java';
+                    break;
+                case 'js':
+                    selectedLanguage = 'JavaScript';
+                    break;
+                case 'ts':
+                    selectedLanguage = 'TypeScript';
+                    break;
+                case 'rb':
+                    selectedLanguage = 'Ruby';
                     break;
                 case 'go':
-                    selectedLanguage = 'go';
+                    selectedLanguage = 'Go';
                     break;
                 case 'scala':
-                    selectedLanguage = 'scala';
+                    selectedLanguage = 'Scala';
                     break;
                 case 'php':
-                    selectedLanguage = 'php';
-                    break;
-                case 'html':
-                    selectedLanguage = 'html';
+                    selectedLanguage = 'PHP';
                     break;
                 case 'css':
-                    selectedLanguage = 'css';
+                    selectedLanguage = 'CSS';
+                    break;
+                case 'html':
+                    selectedLanguage = 'HTML';
+                    break;
+                case 'dfy':
+                    selectedLanguage = 'Dafny';
                     break;
                 default:
-                    selectedLanguage = 'javascript'; // Fallback to JavaScript if unknown
+                    selectedLanguage = '';
+                    break;
             }
             break;
 

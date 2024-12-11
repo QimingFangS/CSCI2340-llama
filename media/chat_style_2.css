@@ -7,12 +7,30 @@
 
 /* Code styling */
 code {
+    display    : inline;
+    width      : fit-content;
+    padding    : 0.25em 0.5em;
+    margin     : 0.25em;
+    line-height: 1.5em;
+}
+
+pre code {
     display    : block;
     width      : fit-content;
     padding    : 0.75em;
     margin     : 0.5em;
     line-height: 1.5em;
     white-space: pre-wrap;
+}
+
+ul {
+    margin-left: 1em;
+    margin-bottom: 0;
+}
+
+ol {
+    margin-left: 1.25em;
+    margin-bottom: 0;
 }
 
 /* General styling */

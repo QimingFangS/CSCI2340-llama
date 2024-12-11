@@ -347,14 +347,6 @@ document.getElementById('sendButton').addEventListener('click', (event) => {
 });
 
 /** 
- * Event Listener: Trigger message sending on clicking the get code button
- */
-document.getElementById('getCodeButton').addEventListener('click', (event) => {
-    event.stopPropagation(); // Prevent event from bubbling up to parent elements
-    getSimilarCode(); // Call the getSimilarCode function
-});
-
-/** 
  * Event Listener: Initialize a new chat session on clicking the "new chat" button
  */
 document.getElementById('newChatBtn').addEventListener('click', (event) => {

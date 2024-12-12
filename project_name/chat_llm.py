@@ -82,6 +82,12 @@ def generate_llm_response(query, session_id=None, generation_model='gpt-4o', sea
     msgs = [{"role": "system", "content": system_prompt}, {
         "role": "user", "content": user_prompt}]
     # print("msgs", msgs)
-    response = _chat_llm(messages=msgs, model=generation_model, temperature=0.7, max_tokens=1000, n=1)
+    response = _chat_llm(messages=msgs, model=generation_model, temperature=0.7, max_tokens=1000, n=1)['generations'][0]
 
-    return response['generations'][0]
+    # extract fixed code within <code></code> XML tag
+    fixed_code = response.split("<code>")[1].split("</code>")[0].strip()
+
+    # extract explanation within <explanation></explanation> XML tag
+    explanation = response.split("<explanation>")[1].split("</explanation>")[0].strip()
+
+    return fixed_code, explanation

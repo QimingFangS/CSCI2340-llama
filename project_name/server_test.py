@@ -1,6 +1,6 @@
 import requests
 
-BASE_URL = "http://localhost:8080"
+BASE_URL = "http://localhost:8000"
 
 
 def initialize_session(api_key, username):
@@ -15,11 +15,15 @@ def initialize_session(api_key, username):
 
 def get_chatbot_response(session_id, query):
     response = requests.post(
-        f"{BASE_URL}/api/get_response", json={"query": query, "session_id": session_id}
+        f"{BASE_URL}/api/generate_output", json={"query": query, "session_id": session_id}
     )
     data = response.json()
-    chatbot_response = data.get("response")
-    return chatbot_response
+    fixed_code = data.get("fixed_code")
+    explanation = data.get("explanation")
+    html_fixed_code = data.get("html_fixed_code")
+    html_explanation = data.get("html_explanation")
+
+    return fixed_code, explanation, html_fixed_code, html_explanation
 
 
 if __name__ == "__main__":
@@ -40,4 +44,9 @@ if __name__ == "__main__":
     for query in queries:
         response = get_chatbot_response(session_id, query)
         print(f"User: {query}\n")
-        print(f"Chatbot: {response}\n")
+        print(f"Chatbot:\n")
+        print("Fixed Code:\n", response[0])
+        print("Explanation:\n", response[1])
+        print("HTML Fixed Code:\n", response[2])
+        print("HTML Explanation:\n", response[3])
+

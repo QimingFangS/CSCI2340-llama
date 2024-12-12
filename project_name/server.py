@@ -6,6 +6,7 @@ import json
 import boto3
 
 from project_name.chat_llm import generate_llm_response
+from project_name.convet_mkdw_to_html import markdown_to_html
 
 app = Flask(__name__)
 CORS(app)
@@ -57,8 +58,8 @@ def download_user_data_from_s3(username, session_id):
         print(f"No previous data for user {username}: {e}")
 
 
-@app.route("/api/get_response", methods=["POST"])
-def get_response():
+@app.route("/api/generate_output", methods=["POST"])
+def generate_output():
     data = request.get_json()
     query = data.get("query")
     session_id = data.get("session_id")
@@ -72,14 +73,14 @@ def get_response():
 
     conversation = user_sessions[session_id]["conversation"]
 
-    response = generate_llm_response(
+    fixed_code, explanation = generate_llm_response(
         query,
         session_id=session_id,
         generation_model="gpt-4o",
         searched_response=None,
     )
 
-    conversation.append({"prompt": query, "response": response})
+    conversation.append({"prompt": query, "response": fixed_code + explanation})
 
     log_file_path = os.path.join("chat_logs", f"{session_id}.json")
     with open(log_file_path, "w") as file:
@@ -87,7 +88,19 @@ def get_response():
 
     upload_user_data_to_s3(username, session_id)
 
-    return jsonify({"response": response, "session_id": session_id})
+    return (
+        jsonify(
+            {
+                "response": fixed_code + explanation,
+                "session_id": session_id,
+                "fixed_code": fixed_code,
+                "explanation": explanation,
+                "html_fixed_code": markdown_to_html(fixed_code),
+                "html_explanation": markdown_to_html(explanation),
+            }
+        ),
+        200,
+    )
 
 
 def upload_user_data_to_s3(username, session_id):
@@ -103,4 +116,4 @@ def upload_user_data_to_s3(username, session_id):
 if __name__ == "__main__":
     if not os.path.exists("chat_logs"):
         os.makedirs("chat_logs")
-    app.run(port=8080, host="0.0.0.0", debug=False)
+    app.run(port=8000, host="0.0.0.0", debug=False)

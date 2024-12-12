@@ -168,11 +168,6 @@ async function sendMessage() {
 
         try {
             // Send user query to the server
-            // const response = await fetch(`${API_URL}/get_response`, {
-            //     method: "POST",
-            //     headers: { "Content-Type": "application/json" },
-            //     body: JSON.stringify({ query: message + '\n' + selectedFileContent, session_id: sessionId })
-            // });
             const response = await fetch(`${API_URL}/generate_output`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -188,10 +183,6 @@ async function sendMessage() {
             const data = {
                 "response": htmlContent
             };
-            // // debugging without backend
-            // const data = {
-            //     "response": "<h4>This is a test!</h4>\n<p>here's some code</p>\n<p><code>def test():\n\tprint('something')</code></p>"
-            // };
 
             // Remove the loading spinner
             chatBox.removeChild(generatingDiv);
@@ -200,10 +191,11 @@ async function sendMessage() {
             const botMessageDiv = document.createElement('div');
             botMessageDiv.className = 'message code-message';
             chatBox.appendChild(botMessageDiv);
+
             // displayTextWithTypingEffect(botMessageDiv, data.response);
             displayHTMLWithTypingEffect(botMessageDiv, data.response);
             const history = getHistory();
-            // currentSessionId = 'chat-' + Date.now();
+
             let session = history.find(s => s.id === currentSessionId);
             if (!session) {
                 session = { id: currentSessionId, timestamp: new Date().toISOString(), messages: [] };
@@ -419,7 +411,7 @@ window.addEventListener('message', (event) => {
             console.log("Files received:", message.files); // Log received file list
             const fileSelect = document.getElementById('fileSelect');
             fileSelect.innerHTML = '<option value="">--Choose a file--</option>'; // Clear the dropdown menu first
-            
+
             // Loop through the received files and dynamically create dropdown options
             message.files.forEach((file) => {
                 if (file) {
@@ -440,7 +432,7 @@ window.addEventListener('message', (event) => {
             selectedFileContent = message.content; // Store file content
             const fileDisplay = document.getElementById('fileDisplay');
             fileDisplay.textContent = `Selected file: ${message.fileName}`; // Display the selected file's name
-            
+
             // Determine the language type based on the file extension
             switch (fileDisplay.textContent.split('.').pop()) {
                 case 'py':

@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Gutter decoration
     const gutterDecorationType = vscode.window.createTextEditorDecorationType({
-        gutterIconPath: vscode.Uri.file(context.asAbsolutePath('resources/chatbox_circular.png')), // Replace with your icon path
+        gutterIconPath: vscode.Uri.file(context.asAbsolutePath('resources/chatbox_circular.png')),
         gutterIconSize: 'contain', // Properly size the icon
     });
 

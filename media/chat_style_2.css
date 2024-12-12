@@ -24,12 +24,12 @@ pre code {
 }
 
 ul {
-    margin-left: 1em;
+    margin-left  : 1em;
     margin-bottom: 0;
 }
 
 ol {
-    margin-left: 1.25em;
+    margin-left  : 1.25em;
     margin-bottom: 0;
 }
 
@@ -105,6 +105,8 @@ h1 {
     word-wrap    : break-word;
     position     : relative;
     white-space  : pre-wrap;
+
+    font-size: 1rem;
 }
 
 .user-message {
@@ -165,31 +167,18 @@ h1 {
 
 /* Options */
 .dropdowns {
-    margin     : 0.5em 0;
-    margin-left: 1em;
-
+    margin: 0 1em;
     display    : flex;
-    align-items: center;
-    gap        : 0.5em;
-
+    flex-direction: column;
+    gap: 0.5em;
     font-size: 0.8rem;
-
     color: #aaa;
 }
 
 .mode-language-select {
-    display        : flex;
-    justify-content: flex-start;
-
-    gap        : 10px;
-    margin-top : 10px;
-    margin-left: 1em;
-}
-
-.mode-language-select .dropdowns,
-.file-display {
-    margin : 0;
-    padding: 0;
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.75em;
 }
 
 select {
@@ -199,6 +188,22 @@ select {
     color           : #fff;
     border          : 1px solid #444;
     border-radius   : 5px;
+}
+
+#messageBoxForLanguage {
+    padding: 0.5em;
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px;
+}
+
+#messageBoxForMode {
+    padding: 0.5em;
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px;
 }
 
 /* Sidebar */
@@ -284,10 +289,6 @@ select {
     background-color: #444;
 }
 
-
-
-
-
 /* Sidebar Content Area */
 #sidebarContent {
     padding: 20px;
@@ -315,22 +316,20 @@ select {
 
 /* Individual History Record Styling */
 .history-item {
-    padding         : 12px;
-    /* Space within each history record */
-    border-radius   : 8px;
-    /* Round the corners of each record */
-    background-color: #3d3d3d;
-    /* Set a dark background for better visibility */
-    margin-bottom   : 10px;
-    /* Space between individual history items */
-    font-size       : 0.85rem;
-    /* Set readable font size */
+    cursor: pointer;
+
+    padding      : 12px;
+    margin-right: 0.35em;
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    font-size: 0.85rem;
+
     color           : #fff;
-    /* Set text color to white for contrast */
-    transition      : background-color 0.3s ease, transform 0.2s ease;
-    /* Add hover and click animations */
-    cursor          : pointer;
-    /* Change the cursor to indicate interactivity */
+    background-color: #3d3d3d;
+
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 /* Hover Effect for History Items */

@@ -47,48 +47,55 @@ export function getWebviewContent(webview: vscode.Webview, context: vscode.Exten
         <div class="chat-box" id="chatBox"></div>
 
         <div class="dropdowns">
-            <label for="fileSelect">Select File:</label>
-            <select id="fileSelect">
-                <option value="">--Choose a file--</option>
-            </select>
-            <div id="fileDisplay">--No file selected--</div>
+            <span>
+                <label for="fileSelect">Select File:</label>
+                <select id="fileSelect">
+                    <option value="">--Choose a file--</option>
+                </select>
+                <div id="fileDisplay">--No file selected--</div>
+            </span>
         </div>
         <div class="mode-language-select">
             <div class="dropdowns">
-                <label for="modeSelect">Select Mode:</label>
-                <select id="modeSelect">
-                    <option value=null>---</option>
-                    <option value="mode_1">Mode 1</option>
-                    <option value="mode_2">Mode 2</option>
-                </select>
+                <span>
+                    <label for="modeSelect">Select Mode:</label>
+                    <select id="modeSelect">
+                        <option value=null>---</option>
+                        <option value="mode_1">Mode 1</option>
+                        <option value="mode_2">Mode 2</option>
+                    </select>
+                </span>
+                <div id="messageBoxForLanguage">
+                    Please select Language!
+                </div>
             </div>
             <div class="dropdowns">
-                <label for="languageSelect">Select Language:</label>
-                <select id="languageSelect">
-                    <option value=null>----</option>
-                    <option value="Python">Python</option>
-                    <option value="C">C</option>
-                    <option value="C++">C++</option>
-                    <option value="C#">C#</option>
-                    <option value="Java">Java</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="TypeScript">TypeScript</option>
-                    <option value="Ruby">Ruby</option>
-                    <option value="Go">Go</option>
-                    <option value="Scala">Scala</option>
-                    <option value="PHP">PHP</option>
-                    <option value="CSS">CSS</option>
-                    <option value="HTML">HTML</option>
-                    <option value="Dafny">Dafny</option>
-                </select>
+                <span>
+                    <label for="languageSelect">Select Language:</label>
+                    <select id="languageSelect">
+                        <option value=null>----</option>
+                        <option value="Python">Python</option>
+                        <option value="C">C</option>
+                        <option value="C++">C++</option>
+                        <option value="C#">C#</option>
+                        <option value="Java">Java</option>
+                        <option value="JavaScript">JavaScript</option>
+                        <option value="TypeScript">TypeScript</option>
+                        <option value="Ruby">Ruby</option>
+                        <option value="Go">Go</option>
+                        <option value="Scala">Scala</option>
+                        <option value="PHP">PHP</option>
+                        <option value="CSS">CSS</option>
+                        <option value="HTML">HTML</option>
+                        <option value="Dafny">Dafny</option>
+                    </select>
+                </span>
+                <div id="messageBoxForMode">
+                    Please select Mode!
+                </div>
             </div>
         </div>
-        <div id="messageBoxForLanguage" style="display:none; padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
-            Please select Language!
-        </div>
-        <div id="messageBoxForMode" style="display:none; padding: 10px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 5px;">
-            Please select Mode!
-        </div>
+        
         <div class="input-area">
             <textarea id="userInput" placeholder="Send your code to LLAMA Co-Pilot" rows="5"></textarea>
             <button id="sendButton">Analyze</button>

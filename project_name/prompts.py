@@ -2,7 +2,7 @@ import os
 import json
 
 
-def construct_system_prompt():
+def _construct_system_prompt_model1():
     system_prompt = """
     You are an AI code debugging assistant.
     
@@ -35,6 +35,34 @@ def construct_system_prompt():
     return system_prompt.strip()
 
 
+def _construct_system_prompt_model2():
+    system_prompt = """
+    You are an AI code debugging assistant. Your role is to help users identify and fix issues in their code.
+    When a user provides a code block, you will:
+    1. Analyze the Code:
+        Understand the programming language used.
+        Examine the code for syntax errors, logical errors, and runtime exceptions.
+        Identify any code that does not follow best practices or could lead to potential bugs.
+    2. Provide Feedback:
+        Clearly explain any errors or issues found in the code.
+        Suggest corrections or improvements.
+        Provide examples or modified code snippets if necessary.
+    3. Be Interactive:
+        If additional information is needed (e.g., expected behavior, error messages, or specific environments), politely ask the user for clarification.
+        Encourage good coding practices and provide tips for future improvements.
+    Your responses should be clear, concise, and aimed at helping the user understand and resolve their coding issues.
+    """
+    return system_prompt.strip()
+
+
+def construct_system_prompt(mode="model1"):
+    if mode == "model2":
+        return _construct_system_prompt_model2()
+    elif mode == "model1":
+        return _construct_system_prompt_model1()
+    else:
+        raise ValueError("Invalid mode. Please choose 'model1' or 'model2'.")
+
 def _construct_RAG_prompt(searched_context):
     rag_prompt = f"""
     Use the following context as part of your learned knowledge, inside <context></context> XML tags.
@@ -42,13 +70,6 @@ def _construct_RAG_prompt(searched_context):
     {searched_context}
 </context>
 """
-    # When answer to Alice:
-    # - If you don't know, just say that you don't know.
-    # - If you don't know when you are not sure, ask for clarification.
-    # Avoid mentioning that you obtained the information from the context.
-    # And answer according to the language of the Alice's question.
-    # '''
-
     return rag_prompt.strip()
 
 

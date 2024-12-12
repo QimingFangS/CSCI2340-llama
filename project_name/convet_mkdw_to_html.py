@@ -1,7 +1,7 @@
 """
 This file converts markdown format into html content.
  
-Author: Daniel Cho
+Author: Daniel Cho, Zhuoxuan Zhang
 """
  
 import markdown2
@@ -13,6 +13,8 @@ def markdown_to_html(markdown_string: str):
     input: markdown string
     output: html string
     """
+    if not markdown_string:
+        return "<p>No content to display.</p>"
     try:
         # Decode the string with errors='ignore' to skip problematic characters
         markdown_string = markdown_string.encode('utf-8', errors='ignore').decode('utf-8', errors='ignore')

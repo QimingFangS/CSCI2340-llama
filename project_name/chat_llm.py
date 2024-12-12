@@ -74,20 +74,23 @@ def _chat_llm(messages, model, temperature, max_tokens, n, timeout=600, stop=Non
 }
 
 
-def generate_llm_response(query, session_id=None, generation_model='gpt-4o', searched_response=None):
-    system_prompt = construct_system_prompt()
+def generate_llm_response(query, session_id=None, generation_model='gpt-4o', searched_response=None, mode="model1"):
+    system_prompt = construct_system_prompt(mode=mode)
     user_prompt = construct_user_prompt(searched_response, query, session_id)
 
 
     msgs = [{"role": "system", "content": system_prompt}, {
         "role": "user", "content": user_prompt}]
-    # print("msgs", msgs)
+
     response = _chat_llm(messages=msgs, model=generation_model, temperature=0.7, max_tokens=1000, n=1)['generations'][0]
 
-    # extract fixed code within <code></code> XML tag
-    fixed_code = response.split("<code>")[1].split("</code>")[0].strip()
-
-    # extract explanation within <explanation></explanation> XML tag
-    explanation = response.split("<explanation>")[1].split("</explanation>")[0].strip()
-
-    return fixed_code, explanation
+    if mode == "model2":
+        return response, None, None
+    elif mode == "model1":
+        # extract fixed code within <code></code> XML tag
+        fixed_code = response.split("<code>")[1].split("</code>")[0].strip()
+        # extract explanation within <explanation></explanation> XML tag
+        explanation = response.split("<explanation>")[1].split("</explanation>")[0].strip()
+        return fixed_code + explanation, fixed_code, explanation
+    else:
+        raise ValueError("Invalid mode. Please choose 'model1' or 'model2'.")

@@ -63,6 +63,7 @@ def generate_output():
     data = request.get_json()
     query = data.get("query")
     session_id = data.get("session_id")
+    mode = data.get("mode")
 
     if not query:
         return jsonify({"error": "No query provided"}), 400
@@ -73,14 +74,15 @@ def generate_output():
 
     conversation = user_sessions[session_id]["conversation"]
 
-    fixed_code, explanation = generate_llm_response(
+    response, fixed_code, explanation = generate_llm_response(
         query,
         session_id=session_id,
         generation_model="gpt-4o",
         searched_response=None,
+        mode=mode,
     )
 
-    conversation.append({"prompt": query, "response": fixed_code + explanation})
+    conversation.append({"prompt": query, "response": response})
 
     log_file_path = os.path.join("chat_logs", f"{session_id}.json")
     with open(log_file_path, "w") as file:
@@ -91,7 +93,8 @@ def generate_output():
     return (
         jsonify(
             {
-                "response": fixed_code + explanation,
+                "response": response,
+                "html_response": markdown_to_html(response),
                 "session_id": session_id,
                 "fixed_code": fixed_code,
                 "explanation": explanation,

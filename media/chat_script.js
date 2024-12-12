@@ -113,7 +113,7 @@ function newSession() {
         currentSessionId = 'chat-' + Date.now(); // Create a new session ID
         return;
     }
-    
+
     currentSessionId = 'chat-' + Date.now();
     // Create new session details
     const newSession = {
@@ -121,7 +121,7 @@ function newSession() {
         timestamp: new Date().toLocaleString(), // Set timestamp to the current date and time
         messages: [] // Initialize as empty message list
     };
-    
+
     history.push(newSession); // Push the new session into history
     saveHistory(currentSessionId, newSession.messages); // Save the new session to storage
     chatBox.innerHTML = ''; // Clear the chatbox UI
@@ -131,17 +131,9 @@ function newSession() {
 // Function to send user message to the server -- generate_output
 async function sendMessage() {
     const input = document.getElementById('userInput');
-    if (!selectedLanguage) {
-        messageBoxForLanguage.style.display = "block";
-        return;
-    }
-    if (!selectedMode) {
-        messageBoxForMode.style.display = "block";
-        return;
-    }
-    // file display
     var message = input.value;
     if (fileDisplay.textContent !== '--No file selected--') {
+        message += selectedFileContent;
         message += '\n\n<code>' + fileDisplay.textContent + '</code>';
     }
 
@@ -163,7 +155,7 @@ async function sendMessage() {
         chatBox.appendChild(generatingDiv);
 
         input.value = ''; // Clear input field
-        // fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
+        fileDisplay.textContent = '--No file selected--'; // Reset fileDisplay
         chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest content
 
         try {

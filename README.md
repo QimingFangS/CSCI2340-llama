@@ -37,6 +37,8 @@ The workflow for the backend database is illustrated in the following figure.
 
 The final presentation is linked [here](https://docs.google.com/presentation/d/1am1Y3bHIITArzZwZaIg1M2pSemxAsT6AYTSwoL19fl4/edit?usp=sharing).
 
+The final demo video is linked [here](https://drive.google.com/file/d/1hH6AFlCBuEU_5vhJvlM9MOyr58ST1I7c/view?usp=share_link).
+
 There is an old version of the backend server in `archive/project_name` for those curious.
 
 As for the structure of this repository, the files are organized as follows:

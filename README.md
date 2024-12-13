@@ -32,6 +32,11 @@ This repository originally contained both the frontend and backend. However, bec
 The workflow of the backend is illustrated in the following figure.
 ![backend workflow https://docs.google.com/drawings/d/1_L3x8BSyXFxRXm1XaalxutYp5_VynZwe3JpWyMylrLg/edit?usp=sharing](figures/Backend%20Pipeline.svg)
 
+The workflow for the backend database is illustrated in the following figure.
+![backend database workflow https://docs.google.com/drawings/d/1oz9EQjdCu4WEgIpyr6hS7aBJ-392JJNiN37TifTgEA8/edit?usp=sharing](figures/Backend_database.svg)
+
+The final presentation is linked [here](https://docs.google.com/presentation/d/1am1Y3bHIITArzZwZaIg1M2pSemxAsT6AYTSwoL19fl4/edit?usp=sharing).
+
 There is an old version of the backend server in `archive/project_name` for those curious.
 
 As for the structure of this repository, the files are organized as follows:
@@ -64,5 +69,5 @@ To run the vscode extension, do the following:
 
 
 
-- better comments in the code and whatnot
+- better comments in the code
 - testing code for the frontend

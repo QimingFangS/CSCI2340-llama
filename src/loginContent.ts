@@ -10,12 +10,12 @@ import * as vscode from 'vscode';
 export function getLoginPanel(webview: vscode.Webview, context: vscode.ExtensionContext): string {
     // Generate a URI for the CSS file to ensure it's properly accessible in the Webview
     const styleUri = webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'media', 'login_style_2.css') // Path to the CSS file
+        vscode.Uri.joinPath(context.extensionUri, 'src', 'style', 'login_style_2.css') // Path to the CSS file
     );
 
     // Generate a URI for the JavaScript file to ensure it's properly accessible in the Webview
     const scriptUri = webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'media', 'login_script.js') // Path to the JavaScript file
+        vscode.Uri.joinPath(context.extensionUri, 'src', 'components', 'login_script.js') // Path to the JavaScript file
     );
 
     // LLAMA image link

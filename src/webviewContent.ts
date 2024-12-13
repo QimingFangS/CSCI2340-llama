@@ -12,11 +12,11 @@ export function getWebviewContent(webview: vscode.Webview, context: vscode.Exten
 
     // Generate URIs for the CSS and JavaScript files to ensure proper accessibility in the Webview
     const styleUri = webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'media', 'chat_style_2.css') // Path to the CSS file
+        vscode.Uri.joinPath(context.extensionUri, 'src', 'style', 'chat_style_2.css') // Path to the CSS file
     );
 
     const scriptUri = webview.asWebviewUri(
-        vscode.Uri.joinPath(context.extensionUri, 'media', 'chat_script.js') // Path to the JavaScript file
+        vscode.Uri.joinPath(context.extensionUri, 'src', 'components', 'chat_script.js') // Path to the JavaScript file
     );
 
     // Return the HTML content for the Webview

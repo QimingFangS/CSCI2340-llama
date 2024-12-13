@@ -1,71 +1,68 @@
-# Llama-copilot VSCode Extension Front-end Design: Classes/Modules and Interfaces
+## LLAMA Co-Pilot -- CSCI2340
 
-The extension allows users to paste code snippets into a chat box within a webview.
+### Contributers
+- Daniel Cho (daniel_s_cho@brown.edu)
+- Xinye Yang (xinye_yang@brown.edu)
+- Qiming Fang (qiming_fang@brown.edu)
+- Yuming Xie (yuming_xie@brown.edu)
+- Zhuoxuan Zhang (zhuoxuan_zhang@brown.edu)
 
-**For how to use the front-end:**
+#### Roles
+- Frontend
+    - Daniel Cho
+    - Xinye Yang
 
-**[Click here to view the Front-end Quick Start](./Front-endQuickStart.md)**
+- Backend
+    - Qiming Fang
+    - Yuming Xie
+    - Zhuoxuan Zhang
 
-## Module 1: `extension.ts`
+### External Related Files
 
-This is the main module of the VSCode extension, responsible for activating the extension, registering commands, and handling interactions between the editor and the webview.
+For assignments, presentation slides, old demos, and diagrams, we've made a google drive folder accessible [here](https://drive.google.com/drive/folders/1C3DmWq23ngmWKjMExT_AMkdETIPHeKNY?usp=sharing) for anyone interested.
 
-### Public Interfaces:
-- **`activate(context: vscode.ExtensionContext)`**  
-  This function is executed when the extension is activated. It registers commands, creates the webview panel, and listens for text selections and message passing.
+### Repository Structure
 
-- **`deactivate()`**  
-  This function is called when the extension is deactivated to clean up resources.
+This repository originally contained both the frontend and backend. However, because of the size of the backend, we've split the repository into the following frontend and backend components:
+1. Frontend (This repository)
+2. Backend server 1 ([link](https://github.com/rili0214/Code-Generating-Project))
+3. Backend server 2 ([link](https://github.com/rili0214/Code-Debugging-Project))
+4. Backend database ([link](https://github.com/rili0214/CGDP_DB))
 
-### Key Interaction Methods:
-- **`vscode.commands.registerCommand('chatbox.open', () => {...})`**  
-  Registers and defines the command `chatbox.open`. When triggered, this command opens the chat box webview.
+The workflow of the backend is illustrated in the following figure.
+![backend workflow https://docs.google.com/drawings/d/1_L3x8BSyXFxRXm1XaalxutYp5_VynZwe3JpWyMylrLg/edit?usp=sharing](figures/Backend%20Pipeline.svg)
 
-- **`vscode.window.onDidChangeTextEditorSelection(event => {...})`**  
-  Listens to text selections in the editor and copies the selected text to the clipboard.
+There is an old version of the backend server in `archive/project_name` for those curious.
 
-- **`panel.webview.onDidReceiveMessage(message => {...})`**  
-  Listens for messages from the webview and handles requests to paste code.
+As for the structure of this repository, the files are organized as follows:
+- archive--old files
+- figures--images for the readme's
+- resources--images used in the frontend application
+- src--main files for the vscode extension
+    - components--contains functions for the login and chat scripts
+    - style--contains css styling for the frontend
 
-- **`pasteCodeToChatBox(panel: vscode.WebviewPanel)`**  
-  Reads code from the clipboard and sends it to the webview to be displayed in the chat box.
+#### Bugs
 
----
+We've been attempting to get code highlighting in the outputs for the llm, however there's an issue in the parser where it cannot parse correctly when attempting to account for code highlighting. So for now, we've ommitted this functionality. 
 
-## Module 2: `webviewContent.ts`
+### Quick Start
 
-This module generates the HTML and CSS content for the webview, defining the structure and style of the chat box, and implements the JavaScript logic for interacting with the chat box.
-
-### Public Interface:
-- **`getWebviewContent()`**  
-  This function returns an HTML string that contains the structure, styles, and JavaScript logic for the chat box in the webview.
-
-### Key Interaction Functions:
-- **`sendMessage()`**  
-  Sends the user input from the chat box and displays it in the webview.
-
-- **`document.addEventListener('contextmenu', event => {...})`**  
-  Listens for right-click events and triggers the paste code request.
-
-- **`window.addEventListener('message', event => {...})`**  
-  Listens for messages sent from the extension and handles the paste code operation.
-
----
-
-## Summary
-
-The extension consists of two main modules:
-1. **`extension.ts`**: Handles the activation of the extension, command registration, and interaction with the editor.
-2. **`webviewContent.ts`**: Generates the HTML content for the webview and manages interactions within the webview.
-
-The code is structured to allow seamless communication between the VSCode editor and the chat box webview, enabling the user to paste code snippets directly into the chat interface.
+To run the vscode extension, do the following:
+1. Clone the repository,
+2. In the project root, run `npm install` and then `npm run compile`,
+3. Open this repository in vscode and press `F5`. 
+4. `crtl+shift+p` / `cmd+shift+p`, and select `>Activate chatbox by login`, which will open the login page and prompt the user for a username and an api key. 
+5. At this point, make sure that the backend is running to successfully login.
 
 
-### Architecture
 
-[Architecture link](https://drive.google.com/file/d/1juJmNTk010oKgFTvrhUXEUXPAT3vn-E6/view?usp=share_link)
 
-### Specifications and Requirements
 
-[Specifications and Requirements Link](https://drive.google.com/file/d/1juJmNTk010oKgFTvrhUXEUXPAT3vn-E6/view?usp=share_link)
 
+
+
+
+
+- better comments in the code and whatnot
+- testing code for the frontend

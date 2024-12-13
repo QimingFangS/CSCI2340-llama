@@ -1,0 +1,102 @@
+[
+    {
+        "mode": "mode_1",
+        "code": "\nimport java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.util.Arrays;\n\npublic class Main {\n\tpublic static void main(String[] args) {\n\t\tBufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n\t\tint height[] = new int[10];\n\t\tfor(int i=0;i<height.length;i++){\n\t\t\ttry {\n\t\t\t\theight[i] = Integer.parseInt(br.readLine());\n\t\t\t} catch (NumberFormatException e) {\n\t\t\t\t// TODO ????????????????????? catch ????????????\n\t\t\t\te.printStackTrace();\n\t\t\t} catch (IOException e) {\n\t\t\t\t// TODO ????????????????????? catch ????????????\n\t\t\t\te.printStackTrace();\n\t\t\t}\n\t\t}\n\t\t\n\t\tArrays.sort(height);\n\t\t\n\t\tfor(int i=0;i<3;i++){\n\t\t\tSystem.out.println(height[height.length-i-1]);\n\t\t}\n\t\t\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\n\npublic class Main {\n\n\tpublic static void main(String[] args) throws IOException {\n\t\tBufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n\t\tString str = null;\n\n\t\twhile((str = br.readLine()) != null) {\n\t\t\tString[] num = str.split(\" \");\n\t\t\tint a = Integer.parseInt(num[0]);\n\t\t\tint b = Integer.parseInt(num[1]);\n\n\t\t\tint digitnum = String.valueOf(a + b).length();\n\t\t\tSystem.out.println(digitnum);\n\t\t}\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.*;\npublic class Main {\n\tpublic static void main(String[] args) {\n\t\tScanner scanner=new Scanner(System.in);\n\t\tint N=scanner.nextInt();\n\t\tint T[]=new int[3];\n\t\tfor(int i=0;i<N;i++){\n\t\t\tfor(int j=0;j<3;j++)\n\t\t\t\tT[j]=scanner.nextInt();\n\t\t\tArrays.sort(T);\n\t\t\tif(T[0]*T[0]+T[1]*T[1]==T[2]*T[2]){\n\t\t\t\tSystem.out.println(\"YES\");\n\t\t\t}else{\n\t\t\t\tSystem.out.println(\"NO\");\n\t\t\t}\n\t\t}\n\t}\n\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.io.*;\n\nclass Main {\n\tpublic static void main(String args[]) {\n\t\ttry {\n\t\t\tBufferedReader reader = new BufferedReader(new InputStreamReader(System.in));\n\t\t\tString t[], s;\n\t\t\tint a[] = new int[2];\n\t\t\tint c;\n\t\t\twhile((s = reader.readLine())  != null) {\n\t\t\t\tt = s.split(\" \");\n\t\t\t\tfor(int i = 0;i < a.length;i++) {\n\t\t\t\t\ta[i] = Integer.parseInt(t[i]);\n\t\t\t\t}\n\t\t\t\tint a0_tmp = a[0], a1_tmp = a[1];\n\t\t\t\twhile(true) {\n\t\t\t\t\tc = a0_tmp % a1_tmp;\n\t\t\t\t\tif(c == 0)\n\t\t\t\t\t\tbreak;\n\t\t\t\t\ta0_tmp = a1_tmp;\n\t\t\t\t\ta1_tmp = c;\n\t\t\t\t}\n\t\t\t\tSystem.out.printf(\"%d %d\\n\", a1_tmp, a[0]/a1_tmp*a[1]);\n\n\t\t\t}\n\n\t\t}\n\t\tcatch(IOException e) {\n\t\t\tSystem.out.println(e);\n\t\t}\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\npublic class Main {\n\n\tpublic static void main(String[] args) {\n\t\tScanner scanner = new Scanner(System.in);\n\t\tString n = scanner.next();\n\n\t\tStringBuffer sb = new StringBuffer(n);\n\t\tString dst = sb.reverse().toString();\n\t\tSystem.out.println(dst);\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\npublic class Main {\n\n\tpublic static void main(String[] args) {\n\t\t@SuppressWarnings(\"resource\")\n\t\tScanner sc = new Scanner(System.in);\n\n\t\tint weekNum = sc.nextInt();\n\n\t\tint debt = 100000;\n\t\tint roundUpNum = 1000;\n\n\t\tfor (int i = 0; i < weekNum; i++) {\n\t\t\tdebt *= 1.05;\n\n\t\t\tdebt = (int) Math.ceil((double) debt / roundUpNum) * roundUpNum;\n\t\t}\n\t\tSystem.out.println(debt);\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\nclass Main{\n\tpublic static void main(String[]agrs){\n\t\tScanner sc = new Scanner(System.in);\n\t\tint x = sc.nextInt();\n\t\tint y = sc.nextInt();\n\t\tSystem.out.println(gcd(x,y));\n\t}\n\tstatic int gcd(int x, int y){\n\t\tif(y == 0){\n\t\t\treturn x;\n\t\t}else{\n\t\t\treturn gcd(y, x % y);\n\t\t}\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.io.BufferedReader;\nimport java.io.IOException;\nimport java.io.InputStreamReader;\nimport java.math.BigInteger;\n\nclass Main {\n\n\tpublic static void main(String[] args) throws IOException {\n\n\t\tBufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n\n\t\tString n = br.readLine();\n\n\t\tString nums;\n\n\t\tint count=0;\n\t\tfor(int i=0; i<Integer.parseInt(n); i++){\n\t\t\t nums = br.readLine();\n\t\t\tif(new BigInteger(nums).isProbablePrime(10)){\n\t\t\t\tcount++;\n\t\t\t}\n\t\t}\n\n\t\tSystem.out.println(count);\n\n\t}\n\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Deque;\nimport java.util.LinkedList;\nimport java.util.Scanner;\n\npublic class Main{\n\n\tpublic static void main(String args[]){\n\t\tnew Main().mainrun();\n\t}\n\n\tprivate Scanner scan;\n\tprivate Deque<String> d;\n\tprivate String str;\n\n\tprivate void mainrun() {\n\t\tscan = new Scanner(System.in);\n\n\t\td = new LinkedList<>();\n\n\t\twhile(scan.hasNext()) {\n\t\t\tstr = scan.next();\n\n\t\t\tswitch(str) {\n\t\t\tcase \"+\":\n\t\t\tcase \"-\":\n\t\t\tcase \"*\":\n\t\t\t\td.push(Calculation(Long.parseLong(d.pop()),\n\t\t\t\t\t\t\t\t   Long.parseLong(d.pop()),\n\t\t\t\t\t\t\t\t   str).toString());\n\t\t\t\tbreak;\n\n\t\t\tdefault:\n\t\t\t\td.push(str);\n\t\t\t}\n\t\t}\n\n\t\tSystem.out.println(d.pop());\n\t\tscan.close();\n\t}\n\n\tprivate Long Calculation(long x,long y,String c) {\n\t\tswitch(c) {\n\t\tcase \"+\":\n\t\t\treturn y + x;\n\t\tcase \"-\":\n\t\t\treturn y - x;\n\t\tcase \"*\":\n\t\t\treturn y * x;\n\t\t}\n\t\treturn (long) 0;\n\t}\n}\n\n",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\nimport java.util.LinkedList;\n\npublic class Main {\n\t\n\tpublic static void main(String[] args) {\n\t\tScanner scanner = new Scanner(System.in);\n\t\tLinkedList<String> processes = new LinkedList<>();\n\t\tint numProcesses = scanner.nextInt();\n\t\tint quantum = scanner.nextInt();\n\t\tint timestamp = 0;\n\t\tString result = \"\";\n\t\t//get all processes from scanner\n\t\tscanner.nextLine();\n\t\tfor (int i = 0; i < numProcesses; i++) {\n\t\t\tprocesses.add(scanner.nextLine());\n\t\t}\n\t\tscanner.close();\n\t\t\n\t\twhile (!processes.isEmpty()) {\n\t\t\t//parse process\n\t\t\tString[] process = processes.remove().split(\" \");\n\t\t\tString name = process[0];\n\t\t\tint timeLeft = Integer.parseInt(process[1]);\n\t\t\t\n\t\t\t//decrement time left and add back to queue if necessary\n\t\t\tif (timeLeft-quantum > 0) {\n\t\t\t\tprocesses.add(name + \" \" + (timeLeft-quantum));\n\t\t\t\ttimestamp += quantum;\n\t\t\t}\n\t\t\telse {\n\t\t\t\ttimestamp += timeLeft;\n\t\t\t\tSystem.out.println(name + \" \" + (timestamp));\n\t\t\t}\n\t\t}\n\t}\n}\n",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\nimport java.io.IOException;\n\nclass Main {\n\tpublic static void main(String[] args) throws IOException {\n\t\tScanner scan = new Scanner(System.in);\n\t\twhile (true) {\n\t\t\tString[] strAry = scan.nextLine().split(\" \");\n\t\t\tint h = Integer.parseInt(strAry[0]);\n\t\t\tint w = Integer.parseInt(strAry[1]);\n\t\t\tif (h == 0 && w == 0) {\n\t\t\t\tbreak;\n\t\t\t}\n\t\t\tfor (int i = 0; i < h; i++) {\n\t\t\t\tfor (int j = 0; j < w; j++) {\n\t\t\t\t\tSystem.out.print(\"#\");\n\t\t\t\t}\n\t\t\t\tSystem.out.println();\n\t\t\t}\n\t\t\tSystem.out.println();\n\t\t}\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.io.*;\nimport java.util.*;\n\nclass Main {\n\n    public static void main(String[] args) throws IOException {\n        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\n        while(true){\n            StringTokenizer st=new StringTokenizer(br.readLine());\n            int h=Integer.parseInt(st.nextToken());\n            int w=Integer.parseInt(st.nextToken());\n            if(w==0&&h==0) break;\n            for(int i=0;i<h;i++){\n                for(int j=0;j<w;j++){\n                    if(i!=0&&i!=h-1&&j!=0&&j!=w-1) System.out.print(\".\");\n                    else System.out.print(\"#\");\n                }System.out.println();\n            }System.out.println();\n        }\n    }\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "\nimport java.util.*;\n\nclass Main{\npublic static void main(String[] args){\nScanner sc = new Scanner(System.in);\nint W,H;\nfor(;;){\nH =sc.nextInt();\nW =sc.nextInt();\nif(H == 0) break;\nfor(int b=1; b<=H; b++){\nif(b%2 ==0){\nfor(int a=1; a<=W; a++){\nif(a%2 ==0) System.out.print(\"#\");\nelse System.out.print(\".\");\n}System.out.println();\n}else{\nfor(int a=1; a<=W; a++){\nif(a%2 ==0) System.out.print(\".\");\nelse System.out.print(\"#\");\n}\nSystem.out.println();\n}\n}\nSystem.out.println();\n}\n}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.*;\n\npublic class Main {\n    private static Scanner sc = new Scanner(System.in);\n    public static void main(String[] args) throws Exception {\n        int n = sc.nextInt();\n        System.out.println(calc(n));\n    }\n    \n    private static String calc(int n) {\n        StringBuilder sb = new StringBuilder();\n        for (int i = 1;i <= n;i++) {\n            if (\n                isDiv(i) ||\n                isContain(i)\n            ) {\n                sb.append(\" \").append(i);\n            }\n        }\n        return sb.toString();\n    }\n    \n    private static boolean isDiv(int n) { return n%3==0; }\n    private static boolean isContain(int n) {\n        String s = String.valueOf(n);\n        String t = \"3\";\n        for (int i = 0;i < s.length(); i++) {\n            if (s.substring(i, i+1).equals(t)) return true;\n        }\n        return false;\n    }\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\npublic class Main{\n\n\tpublic static void main(String[] args) {\n\t\tScanner s = new Scanner(System.in);\n\t\tint n = Integer.parseInt(s.nextLine());\n\t\tboolean flag=true;\n\t\tint[] seq = new int[n];\n\t\tif(n<=100) {\n\t\t\n\t\tfor(int i=0;i<n;i++) {\n\t\t\tseq[i]=s.nextInt();\n\t\t\tif(seq[i]>=0 && seq[i]<1000) {\n\t\t\t\tcontinue;\n\t\t\t}else {\n\t\t\t\tflag=false;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\t}\n\t\t\n\t\tif(flag==true) {\n\t\t\tfor(int j=n;j>0;j--) {\n\t\t\t\tif(j!=1) {\n\t\t\t\t\tSystem.out.print(seq[j-1]+\" \");\n\t\t\t\t}else {\n\t\t\t\t\tSystem.out.println(seq[j-1]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\t\n\t}\n\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\npublic class Main{\n\tpublic static void main(String [] args){\n\t\tScanner sc = new Scanner(System.in);\n\t\tint work,n = sc.nextInt();\n\t\tString str;\n\t\tint[] s = new int[13];\n\t\tint[] h = new int[13];\n\t\tint[] c = new int[13];\n\t\tint[] d = new int[13];\n\t\tfor(int i = 0; i < n; i++){\n\t\t\tstr = sc.next();\n\t\t\twork = sc.nextInt();\n\t\t\tif(str.equals(\"S\")){\n\t\t\t\ts[work-1] = 1;\n\t\t\t}else if(str.equals(\"H\")){\n\t\t\t\th[work-1] = 1;\n\t\t\t}else if(str.equals(\"C\")){\n\t\t\t\tc[work-1] = 1;\n\t\t\t}else if(str.equals(\"D\")){\n\t\t\t\td[work-1] = 1;\n\t\t\t}\n\t\t\t\t\n\t\t}\n\t\tfor(int i = 0; i < 13; i++){\n\t\t\tif(s[i] == 0){\n\t\t\t\tSystem.out.println(\"S \" + (i+1));\n\t\t\t}\n\t\t}\n\t\tfor(int i = 0; i < 13; i++){\n\t\t\tif(h[i] == 0){\n\t\t\t\tSystem.out.println(\"H \" + (i+1));\n\t\t\t}\n\t\t}\n\t\tfor(int i = 0; i < 13; i++){\n\t\t\tif(c[i] == 0){\n\t\t\t\tSystem.out.println(\"C \" + (i+1));\n\t\t\t}\n\t\t}\n\t\tfor(int i = 0; i < 13; i++){\n\t\t\tif(d[i] == 0){\n\t\t\t\tSystem.out.println(\"D \" + (i+1));\n\t\t\t}\n\t\t}\n\t\t\n\t}\n}",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.*;\npublic class Main {\npublic static void main(String[] args){\nScanner sc = new Scanner(System.in);\nint N=Integer.parseInt(sc.next());\nint[][][] vv=new int[4][3][10];\nfor(int i=0;i<N;i++){\nint b=Integer.parseInt(sc.next());\nint f=Integer.parseInt(sc.next());\nint r=Integer.parseInt(sc.next());\nint v=Integer.parseInt(sc.next());\nvv[b-1][f-1][r-1]+=v;\n}\n\nfor(int F=0;F<4;F++){\nfor(int j=0;j<3;j++){\n    for(int i=0;i<10;i++){\n    if(i!=9){System.out.print(\" \"+vv[F][j][i]);}else{System.out.println(\" \"+vv[F][j][i]);}\n    }\nif(F!=3&&j==2)System.out.println(\"####################\");\n}\n}\n\n}\n}\n",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.*;\nimport java.io.*;\n\npublic class Main {\n\n\tpublic static void main(String[] args) {\n\t\tScanner in=new Scanner(System.in);\n\t\tPrintWriter out=new PrintWriter(System.out);\n\t\tint n=in.nextInt(),m=in.nextInt(),A[][]=new int[n][m],b[]=new int[m];\n\t\t\n\t\tfor(int i=0;i<n;i++) {\n\t\t\tfor(int j=0;j<m;j++)A[i][j]=in.nextInt();\n\t\t}\n\t\t\n\t\tfor(int i=0;i<m;i++)b[i]=in.nextInt();\n\t\t\n\t\tfor(int i=0;i<n;i++) {\n\t\t\tint c=0;\n\t\t\tfor(int j=0;j<m;j++) {\n\t\t\t\tc+=A[i][j]*b[j];\n\t\t\t}\n\t\t\tout.println(c);\n\t\t}\n\t\t\n\t\tout.flush();\n\t}\n\n}\n\n",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\n\npublic class Main {\n\n\tpublic static void main(String [] args) {\n\t\t\n\t\tScanner sc = new Scanner(System.in);\n\t\t\n\t\twhile(true) {\n\t\t\t\n\t\t\tlong ways = 0;\n\t\t\t\n\t\t\t\n\t\t\tlong n = sc.nextInt();\n\t\t\tlong x = sc.nextInt();\n\t\t\t\n\t\t\tif(n == 0 && x == 0) break;\n\t\t\t\n\t\t\tfor(long i = 1;i <= n -2;i++) {  //\u4e00\u500b\u76ee\u306e\u6570\uff08n-2\u901a\u308a\uff09\n\t\t\t\t\n\t\t\t\tfor(long j = i + 1;j <= n - 1;j++) {  //\u4e8c\u500b\u76ee\u306e\u6570\uff08\u305d\u308c\u305e\u308cn-i-1\uff09\u901a\u308a\n\t\t\t\t\t\n\t\t\t\t\tfor(long k = j + 1;k <= n;k++) {\n\t\t\t\t\t\tif(i + j + k == x)ways++;\n\t\t\t\t\t\t\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t}\n\t\t\t\t\n\t\t\t}\n\t\t\t\n\t\t\tSystem.out.println(ways);\n\t\t\t\n\t\t\t\n\t\t}\n\n\t}\n\t\n\n}\n",
+        "language": "Java"
+    },
+    {
+        "mode": "mode_1",
+        "code": "import java.util.Scanner;\n\npublic class Main{\n    public static void main(String[]args){\n        Scanner scn = new Scanner(System.in);\n        \n        int r = scn.nextInt();\n        int c = scn.nextInt();\n        int [][]rc = new int[r+1][c+1];\n        int sum =0;\n        \n        for(int i=0;i<r;i++){\n            for(int j=0;j<c;j++){\n                rc[i][j]=scn.nextInt();\n            }\n        }\n        \n        for(int i=0;i<r;i++){\n            for(int j=0;j<c;j++){\n                rc[i][c]+=rc[i][j];\n            }\n        }\n        \n\n        for(int i=0;i<r;i++){\n            for(int j=0;j<c;j++){\n                rc[r][j]+=rc[i][j];\n                sum+=rc[i][j];\n            }\n        }\n        \n        rc[r][c]=sum;\n\n        for(int i=0;i<=r;i++){\n            for(int j=0;j<=c;j++){\n                if(j==c){\n                    System.out.print(rc[i][j]+\"\\n\");\n                }else{\n                    System.out.print(rc[i][j]+\" \");\n                }                               \n            }\n        }        \n        \n        \n        \n    }\n}",
+        "language": "Java"
+    }
+]

@@ -1,0 +1,3 @@
+huggingface-hub==0.26.1  # Get Hugging Face API on its website to use inference API
+flask==3.0.3
+markdown==3.7

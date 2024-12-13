@@ -1,0 +1,7 @@
+{
+    "mode": "mode_1",
+    "model": "qwen",
+    "generated_code": "```python\nimport math\n\nwhile True:\n    try:\n        a, b = map(int, input().split())\n        gcd = math.gcd(a, b)\n        print(gcd, int(a * b / gcd))\n    except ValueError:\n        break\n```",
+    "language": "Python",
+    "dafny_text": ""
+}

@@ -1,0 +1,7 @@
+{
+    "mode": "mode_1",
+    "model": "llama",
+    "generated_code": "```python\nimport math\nwhile True:\n    try:\n        a, b = map(int, input().split())\n        if a < 0 or b < 0:\n            print(\"Error: Inputs must be non-negative.\")\n        else:\n            print(math.gcd(a, b), int(a * b / math.gcd(a, b)))\n    except ValueError:\n        print(\"Error: Invalid input. Please enter two non-negative integers separated by space.\")\n    except Exception as e:\n        print(\"An error occurred:\", str(e))\n    else:\n        continue\n    finally:\n        if a == 0 or b == 0:\n            break\n```\n \nNote: I have also modified the while loop condition from `while 1:` to `while True:` which is more Pythonic but I also added the Validate your inputs in the new code. If you want to add the original exception handling I have kept it.",
+    "language": "Python",
+    "dafny_text": ""
+}

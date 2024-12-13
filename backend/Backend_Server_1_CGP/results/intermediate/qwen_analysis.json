@@ -1,0 +1,22 @@
+{
+    "evaluation_score": {
+        "final_score": 8.75,
+        "stsatic_analysis": 8.75
+    },
+    "generated_code": "import math\n\nwhile True:\n    try:\n        a, b = map(int, input().split())\n        gcd = math.gcd(a, b)\n        print(gcd, int(a * b / gcd))\n    except ValueError:\n        break",
+    "model": "qwen",
+    "python static analysis": [
+        {
+            "output": "Success: no issues found in 1 source file\n",
+            "tool": "mypy"
+        },
+        {
+            "output": "************* Module temp_code_727853a3-8a11-4d23-99e3-9156a0b3df7f\ntemp/code_files/temp_code_727853a3-8a11-4d23-99e3-9156a0b3df7f.py:9:0: C0304: Final newline missing (missing-final-newline)\ntemp/code_files/temp_code_727853a3-8a11-4d23-99e3-9156a0b3df7f.py:1:0: C0114: Missing module docstring (missing-module-docstring)\ntemp/code_files/temp_code_727853a3-8a11-4d23-99e3-9156a0b3df7f.py:1:0: C0103: Module name \"temp_code_727853a3-8a11-4d23-99e3-9156a0b3df7f\" doesn't conform to snake_case naming style (invalid-name)\n\n-----------------------------------\nYour code has been rated at 6.25/10\n\n",
+            "tool": "pylint"
+        },
+        {
+            "output": "Run started:2024-12-10 19:24:02.003199\n\nTest results:\n\tNo issues identified.\n\nCode scanned:\n\tTotal lines of code: 8\n\tTotal lines skipped (#nosec): 0\n\tTotal potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0\n\nRun metrics:\n\tTotal issues (by severity):\n\t\tUndefined: 0\n\t\tLow: 0\n\t\tMedium: 0\n\t\tHigh: 0\n\tTotal issues (by confidence):\n\t\tUndefined: 0\n\t\tLow: 0\n\t\tMedium: 0\n\t\tHigh: 0\nFiles skipped (0):\n",
+            "tool": "bandit"
+        }
+    ]
+}

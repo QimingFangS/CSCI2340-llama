@@ -1,0 +1,7 @@
+{
+    "mode": "mode_1",
+    "model": "qwen",
+    "generated_code": "```python\nimport math\n\ndef main():\n    \"\"\"\n    This program reads pairs of non-negative integers from the user, calculates their GCD and LCM,\n    and prints the results. The program stops when invalid input (non-integer or negative integers) is entered.\n    \"\"\"\n    while True:\n        try:\n            a, b = map(int, input(\"Enter two non-negative integers separated by space: \").split())\n            if a < 0 or b < 0:\n                print(\"Error: Inputs must be non-negative.\")\n                continue\n            gcd = math.gcd(a, b)\n            lcm = int(a * b / gcd)\n            print(f\"GCD: {gcd}, LCM: {lcm}\")\n        except ValueError:\n            print(\"Error: Invalid input. Please enter two non-negative integers separated by space.\")\n        except KeyboardInterrupt:\n            print(\"\\nProgram terminated by user.\")\n            break\n\nif __name__ == \"__main__\":\n    main()\n```\n\nExplanation:  \nModel 2 has a slightly higher final score (8.81) compared to Model 1 (8.75). The code from Model 2 includes user-friendly error messages and checks for non-negative integers, which are valuable improvements. However, it also uses a broad exception catch, which is a bad practice. The enhanced code incorporates the useful features from Model 2 while maintaining best practices, such as using specific exceptions and including a module docstring.",
+    "language": "Python",
+    "dafny_text": ""
+}

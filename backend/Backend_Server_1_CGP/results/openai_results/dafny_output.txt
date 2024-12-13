@@ -1,0 +1,47 @@
+```dafny
+class Main {
+  static method Main() {
+    var finished := false;
+    while !finished {
+      try {
+        print("Enter two integers: ");
+        var input := Console.ReadLine();
+        if input == null {
+          finished := true;
+        } else {
+          var parts := input.Split(' ');
+          if parts.Length == 2 {
+            var a := int.Parse(parts[0]);
+            var b := int.Parse(parts[1]);
+            var gcd := GCD(a, b);
+            print"{gcd} {a*b/gcd}\n";
+          } else {
+            finished := true;
+          }
+        }
+      } catch e : System.FormatException {
+        finished := true;
+      }
+    }
+  }
+
+  predicate ValidInput(a: int, b: int)
+    reads a, b
+    requires a >= 0 && b >= 0
+
+  method GCD(x: int, y: int) returns (result: int)
+    requires x >= 0 && y >= 0
+    ensures result >= 1
+    ensures result <= x && result <= y
+    ensures x % result == 0 && y % result == 0
+    ensures forall z :: (x % z == 0 && y % z == 0) ==> z <= result
+  {
+    decreases x + y
+    if y == 0 {
+      result := x;
+    } else {
+      result := GCD(y, x % y);
+    }
+  }
+}
+```

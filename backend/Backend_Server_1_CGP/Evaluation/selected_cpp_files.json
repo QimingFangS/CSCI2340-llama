@@ -1,0 +1,102 @@
+[
+    {
+        "mode": "mode_2",
+        "code": "#include<bits/stdc++.h>\nusing namespace std;\nint main(){\n  for(int i=1;i<10;i++)\n    for(int j=1;j<10;j++)\n      printf(\"%dx%d=%d\\n\",i,j,i*j);\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<iostream>\n#include<math.h>\nusing namespace std;\n\nint main()\n{\n\tint a, b;\n\n\twhile (cin >> a >> b){\n\t\tcout << (int)(log10(a + b) + 1) << endl;\n\t}\n\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\nusing namespace std;\n\nint main()\n{\n\tint iN, Temp;\n\tint iNum[3], iTrueFlag[1000];\n\n\tcin >> iN;\n\n\tfor( int i=0; i<iN; i++ ){\n\t\tcin >> iNum[0] >> iNum[1] >> iNum[2];\n\n\t\tfor( int j = 0; j < 3; j++ ){\n\t\t\tfor( int k = j + 1; k < 3; k++ ){\n\t\t\t\tif( iNum[j] > iNum[k] ){\n\t\t\t\t\tTemp    = iNum[j];\n\t\t\t\t\tiNum[j] = iNum[k];\n\t\t\t\t\tiNum[k] = Temp;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tif( (iNum[0] * iNum[0]) + (iNum[1] * iNum[1]) == (iNum[2] * iNum[2]) ) iTrueFlag[i] = 1;\n\t\telse\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t   iTrueFlag[i] = 0;\n\n\t}\n\n\tfor( int i=0;i<iN;i++ ){\n\t\tif( iTrueFlag[i] == 1 ) cout << \"YES\" << endl;\n\t\telse\t\t\t\t    cout << \"NO\" << endl;\n\t}\n\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <bits/stdc++.h>\nusing namespace std;\n\n#define INF 1.1e9\n#define LINF 1.1e18\n#define FOR(i,a,b) for (int i=(a);i<(b);++i)\n#define REP(i,n) FOR(i,0,n)\n#define ALL(v) (v).begin(),(v).end()\n#define pb push_back\n#define pf push_front\n#define fi first\n#define se second\n#define BIT(x,n) bitset<n>(x)\n#define PI 3.14159265358979323846\n\ntypedef long long ll;\ntypedef pair<int,ll> P;\ntypedef pair<ll,P> PP;\n\n//-----------------------------------------------------------------------------\n\nint main() {\n\tcin.tie(0);\n\tios::sync_with_stdio(false);\n\n\tint a,b,c,d,e,f;\n\twhile(cin>>a>>b>>c>>d>>e>>f) {\n\t\tdouble y=(double)(c*d-a*f)/(double)(b*d-a*e);\n\t\tdouble x=(c-b*y)/a;\n\t\tprintf(\"%.3f %.3f\\n\",x,y);\n\t}\n\n\treturn 0;\n}\n\n",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#include <vector>\n\nusing namespace std;\n\n//????\u00b0???\u00ac?????\u00b0\nunsigned int comp_GCD(unsigned int a, unsigned int b){\n\twhile(1){\n\t\tunsigned int r;\n\t\tr = a % b;\n\t\ta = b;\n\t\tb = r;\n\t\tif(b == 0){\n\t\t\treturn a;\n\t\t}\n\t}\n\treturn 0;\n}\n\n//?????????\nint main() {\n\tunsigned int a, b;\n\tvector<unsigned int> result_gcd;\n\tvector<unsigned int> result_lcm;\n\twhile(cin >> a >> b){\n\t\tunsigned int gcd = comp_GCD(a, b);\n\t\tresult_gcd.push_back(gcd);\n\t\tresult_lcm.push_back(a * (b / gcd));\n\t}\n\tfor(unsigned int i = 0; i < result_gcd.size(); i++){\n\t\tcout << result_gcd[i] << \" \" << result_lcm[i] << endl;\n\t}\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<functional>\n#include<algorithm>\n#include<iostream>\n#include<utility>\n#include<string>\n#include<vector>\n#include<cmath>\n#include<stack>\n#include<queue>\n#include<deque>\n#include<map>\n#define rep(i,n) for(int i=0;i<n;i++)\n#define loop(i,x,n) for(int i=x;i<n;i++)\n#define pf push_front\n#define pb push_back\n#define int long long\nusing namespace std;\nconst int INF=1000000007;\nint dx[4]={1,0,-1,0};\nint dy[4]={0,1,0,-1};\n\n\n\nsigned main(){\n  string s;\n  cin>>s;\n  for(int i=s.size()-1;i>=0;i--){\n    cout<<s[i];\n  }\n  cout<<endl;\n  return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#include <algorithm>\n#include <string>\n\nint main(void)\n{\n\tint base = 100000;\n\t\n\tint n;\n\tstd::cin >> n;\n\t\n\tfor (int i = 0; i < n; i++) {\n\t\tbase = 1.05 * base;\n    if (base % 1000 != 0) {\n      base = (base / 1000) * 1000 + 1000;\n    }\n    else {\n      base = (base / 1000) * 1000;\n    }\n\t}\n  \n  std::cout << base << std::endl;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <stdio.h>\n\nint main(void)\n{\n  int n,i,a,b,c,d;\n\n  i = 0;\n  while(i < 50){\n    int ans = 0;\n    scanf(\"%d\", &n);\n    if(!(n > 0 && n <= 50)){\n      break;\n    }\n    if(n <= 36){\n      for(a = 0;a <= 9;a++){\n\tfor(b = 0;b <= 9;b++){\n\t  for(c = 0;c <= 9;c++){\n\t    for(d = 0;d <= 9;d++){\n\t      if((a+b+c+d) == n){\n\t\tans++;\n\t      }\n\t    }\n\t  }\n\t}\n      }\n    }\n    printf(\"%d\\n\", ans);\n    i++;\n  }\n  return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<cstdio>\n#include<cstring>\n\nconst int N = 1000009;\nint dp[N];\nint isprime[N];\n\nint main()\n{\n    dp[1] = 0;\n    for(int i=2;i<N;i++)\n    {\n        if(!isprime[i])\n            for(int j=2*i;j<N;j+=i)\n                isprime[j] = 1;\n        dp[i] = dp[i-1] + ((isprime[i])?0:1);\n    }\n\n    int y;\n    while(~scanf(\"%d\",&y))\n        printf(\"%d\\n\",dp[y]);\n    return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#include <vector>\n#include <functional>\n\nint main()\n{\n    int w;\n    std::cin >> w;\n    std::vector<int> v(w);\n    for(int i = 0; i < w; ++i){\n        v[i] = i+1;\n    }\n    int n;\n    std::cin >> n;\n    for(int i = 0; i < n; ++i){\n        int a, b;\n        char c;\n        std::cin >> a >> c >>  b;\n        std::swap(v[a-1], v[b-1]);\n    }\n    for(int i = 0; i < w; ++i){\n        std::cout << v[i] << std::endl;\n    }\n    return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#define STU_NUM 30\n#define NYUURYOKU 28\n\nusing namespace std;\n\nint main(){\n\tint a[STU_NUM] = { 0 };\n\tint temp = 0;\n\tint n[2] = { 0 };\n\n\tfor(int i = 0; i < NYUURYOKU; i++){\n\t\tcin >> temp;\n\t\ta[temp - 1] = 1;\n\t}\n\tint i, j;\n\n\tfor(i = 0; i < STU_NUM; i++){\n\t\tif(a[i] == 0){\n\t\t\tcout << i + 1 << endl;\n\t\t}\n\t}\n\n\t// if(n[0] > n[1]){\n\t// \tcout << n[0] + \" \" + n[1] << endl;\n\t// }else{\n\t// \tcout << n[1] + \" \" + n[0] << endl;\n\t// }\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <algorithm>\n#include <iostream>\n#include <cstring>\nusing namespace std;\nlong long dp[17][17];\nint main()\n{\n    while (true) {\n        int a, b;\n        cin >> a >> b;\n        if (a == 0 && b == 0) break;\n\n        memset(dp, 0, sizeof(dp));\n        dp[1][1] = 1;\n        int n;\n        cin >> n;\n        while (n--) {\n            int x, y;\n            cin >> x >> y;\n            dp[x][y]=-1;\n        }\n        for (int i=1; i<=a; ++i) {\n            for (int j=1; j<=b; ++j) {\n                if (dp[i][j] < 0)\n                    dp[i][j] = 0;\n                else\n                    dp[i][j] = max(dp[i][j], dp[i-1][j] + dp[i][j-1]);\n            }\n        }\n        cout << dp[a][b] << endl;\n    }\n    return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<iostream>\n#include<algorithm>\nusing namespace std;\n\nint main(){\n  int n,k;\n  while( cin >> n >> k,n+k){\n    \n    int a[n];\n    for(int i = 0;i < n;i++){\n      cin >> a[i];\n    }\n    int sum = -500000;\n    for(int i = 0;i < n-k+1;i++){\n      //cout << i << endl;\n      int s = 0;\n      for(int j = i;j < i+k;j++){\n\ts += a[j];\n      }\n      sum = max(s,sum);\n    }\n    cout << sum <<  endl;\n    \n  }\n  \n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <bits/stdc++.h>\nusing namespace std;\nint main() {\n  for(int N; cin>>N&&N;){\n    int n=1000, a=0;\n    while(1) {\n      if(n-500>=N) n-=500,a++;\n      else if(n-100>=N) n-=100,a++;\n      else if(n-50>=N) n-=50,a++;\n      else if(n-10>=N) n-=10,a++;\n      else if(n-5>=N)n-=5,a++;\n      else if(n-1>=N)n--,a++;\n      else break;\n    }cout <<a<<endl;\n  }\n  return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <stdio.h>\n#include <iostream>\n#define R 11\n#define C 10010\n\nusing namespace std;\nint mp[R][C];\nint r,c, Max;\n\nvoid filp(int i)\n{\n    for (int j = 0; j < c; j++)\n        mp[i][j] = !mp[i][j];\n}\n\nvoid dfs(int x)\n{\n    if (x == r-1)\n    {\n        int step;\n        for (int j = 0; j < c; j++)\n        {\n            step = 0;\n            for (int i = 0; i < r; i++)\n            {\n                if (mp[i][j])\n                    step++;\n            }\n            if (step < r-step)\n                for (int i = 0; i < r; i++)\n                    mp[i][j] = !mp[i][j];\n        }\n\n\n        step = 0;\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n            {\n                if (mp[i][j])\n                    step++;\n            }\n        Max = max(step, Max);\n        return;\n    }\n    dfs(x+1);\n    filp(x);\n    dfs(x+1);\n}\n\nint main()\n{\n    while(~scanf(\"%d%d\", &r, &c) && (r != 0 || c != 0))\n    {\n        for (int i = 0; i < r; i++)\n            for (int j = 0; j < c; j++)\n                scanf(\"%d\", &mp[i][j]);\n\n        Max = 0;\n        dfs(0);\n\n        cout<<Max<<endl;\n    }\n\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<stdio.h>\nint main(void)\n{\n\tlong long int i,j,a=0,b,c[100],d[1001][21];\n\tscanf(\"%lld\",&b);\n\tfor(i=0;i<b;i++){\n\t\tscanf(\"%lld\",&c[i]);\n\t}\n\n\tfor(i=0;i<21;i++){\n\t\tfor(j=0;j<=1000;j++){\n\t\t\td[j][i]=0;\n\t\t}\n\t}\n\td[0][c[0]]=1;\n\tfor(i=0;i<b-2;i++){\n\t\tfor(j=0;j<=20;j++){\n\t\t\tif(j+c[i+1]<=20){\n\t\t\t\td[i+1][j+c[i+1]]=d[i][j]+d[i+1][j+c[i+1]];\n\t\t\t}\n\t\t\tif(j-c[i+1]>=0){\n\t\t\t\td[i+1][j-c[i+1]]=d[i][j]+d[i+1][j-c[i+1]];\n\t\t\t}\n\t\t}\n\t}\n\tprintf(\"%lld\\n\",d[b-2][c[b-1]]);\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#include <string>\n#include <algorithm>\n#include <queue>\n#include <map>\n#include <set>\n#include <vector>\n#include <cmath>\n#include <cctype>\n#define rep(i,a,b) for(int i=(a);i<b;i++)\n#define INF 1000000000\nusing namespace std;\nbool debug=false;\n\nint main(){\n  int n,r;\n  while(1){\n    cin>>n>>r;\n    if(n==0&&r==0)break;\n    int d[51];\n    //?????????\n    for(int i=0;i<n;i++){\n      d[i]=n-i;\n    }\n\n    if(debug)for(int i=0;i<n;i++)cout<<d[i]<<\" \";\n    if(debug)cout<<endl;\n      \n    for(int i=0;i<r;i++){\n      int p,c,tmp[51];\n      cin>>p>>c;\n      \n      for(int j=0;j<c;j++)tmp[j]=d[j+p-1];\n\n      for(int j=p-2;j>=0;j--)d[j+c]=d[j];\n\n      for(int j=0;j<c;j++)d[j]=tmp[j];\n\n      \n      if(debug)for(int i=0;i<n;i++)cout<<d[i]<<\" \";\n      if(debug)cout<<endl;\n    }\n    cout<<d[0]<<endl;\n  }\n  return 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <iostream>\n#include <string>\nusing namespace std;\n\nstring line[30];\nint w, h, x, y, sum;\n\nvoid countup(int x, int y){\n\tif(line[y][x] != '#'){\n\t\tline[y][x] = '#';\n\t\tcountup(x,y-1);\n\t\tcountup(x,y+1);\n\t\tcountup(x+1,y);\n\t\tcountup(x-1,y);\n\t\tsum++;\n\t}\n\treturn;\n}\n\nint main(){\n\twhile(cin >> w >> h){\n\t\tif (!w && !h) break;\n\t\tsum = 0;\n\t\tfor(int i = 1;i<=h;i++){\n\t\t\tcin >> line[i];\n\t\t\tline[i] = \"#\" + line[i] + \"#\";\n\t\t\tfor(int j = 0;j<=w+1;j++){\n\t\t\t\tif(line[i][j] == '@'){\n\t\t\t\t\tx = j;\n\t\t\t\t\ty = i;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tline[h + 1] = line[0] = \"#####################\";\n\t\tcountup(x, y);\n\t\tcout << sum << endl;\n\t}\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include <bits/stdc++.h>\nusing namespace std;\n\n#define fi first\n#define se second\n#define repl(i,a,b) for(int i=(int)(a);i<(int)(b);i++)\n#define rep(i,n) repl(i,0,n)\n#define each(itr,v) for(auto itr:v)\n#define pb(s) push_back(s)\n#define mp(a,b) make_pair(a,b)\n#define all(x) (x).begin(),(x).end()\n#define dbg(x) cout<<#x\"=\"<<x<<endl\n#define maxch(x,y) x=max(x,y)\n#define minch(x,y) x=min(x,y)\n#define uni(x) x.erase(unique(all(x)),x.end())\n#define exist(x,y) (find(all(x),y)!=x.end())\n#define bcnt(x) bitset<32>(x).count()\n\ntypedef long long ll;\ntypedef unsigned long long ull;\ntypedef pair<int, int> P;\ntypedef pair<P, int> PPI;\ntypedef pair<ll, ll> PL;\ntypedef pair<P, ll> PPL;\n\n#define INF INT_MAX/3\n\n#define MAX_N 1000\n\nstring encrypt(int n){\n\tint m=n/1000,c=n%1000/100,x=n%100/10,i=n%10;\n\tstring res;\n\tif(m>0){\n\t\tif(m!=1)res+=to_string(m);\n\t\tres+=\"m\";\n\t}\n\tif(c>0){\n\t\tif(c!=1)res+=to_string(c);\n\t\tres+=\"c\";\n\t}\n\tif(x>0){\n\t\tif(x!=1)res+=to_string(x);\n\t\tres+=\"x\";\n\t}\n\tif(i>0){\n\t\tif(i!=1)res+=to_string(i);\n\t\tres+=\"i\";\n\t}\n\treturn res;\n}\n\nint decrypt(string s){\n\tint l=0,len=0;\n\tint res=0;\n\trep(i,s.length()){\n\t\tif(s[i]=='m'){\n\t\t\tif(len==0)res+=1000;\n\t\t\telse res+=1000*stoi(s.substr(l,len));\n\t\t\tl=i+1;\n\t\t\tlen=0;\n\t\t}else if(s[i]=='c'){\n\t\t\tif(len==0)res+=100;\n\t\t\telse res+=100*stoi(s.substr(l,len));\n\t\t\tl=i+1;\n\t\t\tlen=0;\n\t\t}else if(s[i]=='x'){\n\t\t\tif(len==0)res+=10;\n\t\t\telse res+=10*stoi(s.substr(l,len));\n\t\t\tl=i+1;\n\t\t\tlen=0;\n\t\t}else if(s[i]=='i'){\n\t\t\tif(len==0)res+=1;\n\t\t\telse res+=1*stoi(s.substr(l,len));\n\t\t\tl=i+1;\n\t\t\tlen=0;\n\t\t}else len++;\n\t}\n\treturn res;\n}\n\nint main(){\n\tcin.sync_with_stdio(false);\n\tint n;\n\tcin>>n;\n\trep(i,n){\n\t\tstring s1,s2;\n\t\tcin>>s1>>s2;\n\t\tcout<<encrypt(decrypt(s1)+decrypt(s2))<<endl;\n\t}\n\treturn 0;\n}",
+        "language": "C++"
+    },
+    {
+        "mode": "mode_1",
+        "code": "#include<algorithm>\n#include<vector>\n\n#include<iostream>\nusing namespace std;\n\nvector<int> prime;\nvoid prime_set(int n){\n  n+=100;\n  prime.resize(n);\n  for(int i=0;i<n;i++){\n    prime[i]=1;\n  }\n  prime[0]=prime[1]=0;\n  for(int i=0;i*i<n;i++){\n    if(prime[i]){\n      for(int j=i*2;j<n;j+=i){\n        prime[j]=0;\n      }\n    }\n  }\n}\n\nint solve(int a,int b,int n){\n  int c = 0;\n  while(c!=n){\n    c+=prime[a];\n    a+=b;\n  }\n  return a-b;\n}\nint main(){\n  prime_set(10000000);\n  int a,b,n;\n  while(cin>>a>>b>>n,a!=0&&b!=0&&n!=0){\n    cout<<solve(a,b,n)<<endl;\n  }\n}",
+        "language": "C++"
+    }
+]

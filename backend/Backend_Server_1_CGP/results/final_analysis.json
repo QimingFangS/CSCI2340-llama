@@ -1,0 +1,22 @@
+{
+    "evaluation_score": {
+        "final_score": 9.073333333333332,
+        "stsatic_analysis": 9.073333333333332
+    },
+    "generated_code": "import math\n\ndef main():\n    \"\"\"\n    This program reads pairs of non-negative integers from the user, calculates their GCD and LCM,\n    and prints the results. The program stops when invalid input (non-integer or negative integers) is entered.\n    \"\"\"\n    while True:\n        try:\n            a, b = map(int, input(\"Enter two non-negative integers separated by space: \").split())\n            if a < 0 or b < 0:\n                print(\"Error: Inputs must be non-negative.\")\n                continue\n            gcd = math.gcd(a, b)\n            lcm = int(a * b / gcd)\n            print(f\"GCD: {gcd}, LCM: {lcm}\")\n        except ValueError:\n            print(\"Error: Invalid input. Please enter two non-negative integers separated by space.\")\n        except KeyboardInterrupt:\n            print(\"\\nProgram terminated by user.\")\n            break\n\nif __name__ == \"__main__\":\n    main()",
+    "model": "qwen",
+    "python static analysis": [
+        {
+            "output": "Success: no issues found in 1 source file\n",
+            "tool": "mypy"
+        },
+        {
+            "output": "************* Module temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b\ntemp/code_files/temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b.py:6:0: C0301: Line too long (111/100) (line-too-long)\ntemp/code_files/temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b.py:18:0: C0301: Line too long (101/100) (line-too-long)\ntemp/code_files/temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b.py:24:0: C0304: Final newline missing (missing-final-newline)\ntemp/code_files/temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b.py:1:0: C0114: Missing module docstring (missing-module-docstring)\ntemp/code_files/temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b.py:1:0: C0103: Module name \"temp_code_baacfd8b-5fa0-4441-b34d-0eca299e311b\" doesn't conform to snake_case naming style (invalid-name)\n\n-----------------------------------\nYour code has been rated at 7.22/10\n\n",
+            "tool": "pylint"
+        },
+        {
+            "output": "Run started:2024-12-10 19:24:17.743124\n\nTest results:\n\tNo issues identified.\n\nCode scanned:\n\tTotal lines of code: 22\n\tTotal lines skipped (#nosec): 0\n\tTotal potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0\n\nRun metrics:\n\tTotal issues (by severity):\n\t\tUndefined: 0\n\t\tLow: 0\n\t\tMedium: 0\n\t\tHigh: 0\n\tTotal issues (by confidence):\n\t\tUndefined: 0\n\t\tLow: 0\n\t\tMedium: 0\n\t\tHigh: 0\nFiles skipped (0):\n",
+            "tool": "bandit"
+        }
+    ]
+}

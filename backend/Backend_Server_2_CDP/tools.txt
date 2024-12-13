@@ -1,0 +1,18 @@
+Ubuntu==22.04.5
+
+# For CDP
+Valgrind==3.18.1
+Clang-Tidy==14.0.0
+
+openjdk==17.0.13  # Ensure Java 17 is installed to run SonarQube
+
+SonarQube==10.8
+# Installation:
+# Follow this link to install SonarQube: 
+# https://docs.sonarsource.com/sonarqube-server/latest/setup-and-upgrade/overview/
+# Also, install SonarScanner and configure the sonar-project.properties file in temp/code_files
+
+Dafny==4.9.1
+# Installation:
+# Follow this link to install Dafny on Linux: 
+# https://github.com/dafny-lang/dafny/wiki/INSTALL

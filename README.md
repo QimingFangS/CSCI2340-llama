@@ -25,7 +25,7 @@ For assignments, presentation slides, old demos, and diagrams, we've made a goog
 
 This repository originally contained both the frontend and backend. However, because of the size of the backend, we've split the repository into the following frontend and backend components:
 1. Frontend (This repository)
-2. Backend server 1 ([link](https://github.com/rili0214/Code-Generating-Project))
+2. Backend server 1 ([link](https://github.com/QimingFangS/CSCI2340-llama/blob/zhuoxuan_zhang/project_name/server.py))
 3. Backend server 2 ([link](https://github.com/rili0214/Code-Debugging-Project))
 4. Backend database ([link](https://github.com/rili0214/CGDP_DB))
 

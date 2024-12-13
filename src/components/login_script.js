@@ -2,7 +2,7 @@
 const vscode = acquireVsCodeApi();
 
 // Add an event listener to handle the login form submission
-document.getElementById('login-form').addEventListener('submit', function(event) {
+document.getElementById('login-form').addEventListener('submit', function (event) {
     event.preventDefault(); // Prevent the form from submitting and refreshing the page
 
     // Get the username and API key from the input fields
@@ -11,7 +11,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
 
     // Send the username and API key to the VSCode extension
     vscode.postMessage({
-        command: 'submit', // Command identifier for the extension
+        command: 'submit',  // Command identifier for the extension
         username: username, // User's inputted username
         apiKey: apiKey      // User's inputted API key
     });

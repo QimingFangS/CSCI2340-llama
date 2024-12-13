@@ -59,15 +59,3 @@ To run the vscode extension, do the following:
 3. Open this repository in vscode and press `F5`. 
 4. `crtl+shift+p` / `cmd+shift+p`, and select `>Activate chatbox by login`, which will open the login page and prompt the user for a username and an api key. 
 5. At this point, make sure that the backend is running to successfully login.
-
-
-
-
-
-
-
-
-
-
-- better comments in the code
-- testing code for the frontend

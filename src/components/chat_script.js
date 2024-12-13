@@ -1,16 +1,19 @@
 // Acquire the Visual Studio Code API to interact with the extension
 const vscode = acquireVsCodeApi();
-// const API_URL = "http://127.0.0.1:8080/api"; // Backend API URL
-const API_URL = "http://127.0.0.1:8000"; // Backend API URL
 
-let sessionId = null; // Session ID for user authentication
+// Backend API URL
+const API_URL = "http://127.0.0.1:8000"; // "http://127.0.0.1:8080/api";
+
+// Variables
+let sessionId = null;         // Session ID for user authentication
 let selectedFileContent = "";
-let selectedMode = null; // Default mode null
-let selectedLanguage = null; //Default language null
+let selectedMode = null;      // Default mode null
+let selectedLanguage = null;  //Default language null
 let currentUser = null;
-let currentSessionId = null; // Session ID for chat history
+let currentSessionId = null;  // Session ID for chat history
 
 // DOM Elements Initialization
+
 // Select the sidebar element
 const sidebar = document.getElementById('sidebar');
 // Select the button that toggles the sidebar
@@ -19,10 +22,10 @@ const toggleSidebarBtn = document.getElementById('toggleSidebar');
 const toggleSidebarIcon = document.getElementById('toggleSidebarIcon');
 
 // Additional UI Elements Initialization
-const chatBox = document.getElementById('chatBox'); // Chatbox container
-const historyList = document.getElementById('historyList'); // Chat history container
-const userInput = document.getElementById('userInput'); // User input field
-const newChatBtn = document.getElementById('newChatBtn'); // Button to create a new chat
+const chatBox = document.getElementById('chatBox');           // Chatbox container
+const historyList = document.getElementById('historyList');   // Chat history container
+const userInput = document.getElementById('userInput');       // User input field
+const newChatBtn = document.getElementById('newChatBtn');     // Button to create a new chat
 const sendMessageBtn = document.getElementById('sendButton'); // Send message button
 
 const messageBoxForLanguage = document.getElementById("messageBoxForLanguage");

@@ -57,5 +57,5 @@ To run the vscode extension, do the following:
 1. Clone the repository,
 2. In the project root, run `npm install` and then `npm run compile`,
 3. Open this repository in vscode and press `F5`. 
-4. `crtl+shift+p` / `cmd+shift+p`, and select `>Activate chatbox by login`, which will open the login page and prompt the user for a username and an api key. 
+4. `crtl+shift+p` / `cmd+shift+p` / `F1`, and select `>Activate chatbox by login`, which will open the login page and prompt the user for a username and an api key. 
 5. At this point, make sure that the backend is running to successfully login.

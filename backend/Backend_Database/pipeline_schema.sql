@@ -1,3 +1,7 @@
+-- pipeline_schema.sql to store the user's records
+-- Author: Yuming Xie
+-- Date: 11/28/2024
+
 -- Create Inputs Table
 CREATE TABLE inputs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

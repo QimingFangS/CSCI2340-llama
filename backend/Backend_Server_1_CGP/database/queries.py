@@ -125,7 +125,6 @@ def insert_evaluation_results(input_id, generated_code_id, static_analysis_resul
     except Exception as e:
         logger.error(f"Error inserting evaluation results: {e}")
 
-# Insert into Final Output Table
 def insert_final_output(input_id, report_text):
     """
     Insert final output into Final Output Table
@@ -242,7 +241,6 @@ def get_final_output_by_ids(input_ids):
     connection.close()
     return results
 
-# Delete Inputs Table Record (and cascade deletes)
 def delete_input(input_id):
     """
     Delete an input record and all related records.

@@ -1,3 +1,12 @@
+#############################################################################################################################
+# Program: tests/test_database.py                                                                                           #                 
+# Author: Yuming Xie                                                                                                        #
+# Date: 12/01/2024                                                                                                          #
+# Version: 1.0.3                                                                                                            #
+# License: [MIT License]                                                                                                    #
+# Description: This program defines test cases for the database.                                                            #                                                                                                 
+#############################################################################################################################
+
 from database.queries import (
     insert_input, 
     insert_generated_code, 
@@ -11,6 +20,9 @@ from database.queries import (
 )
 
 def test_database_1():
+    """
+    Test the database functions.
+    """
     input_id = insert_input("def buggy(): test 1", "Python", "mode1")
     print(f"Inserted Input ID: {input_id}")
 
@@ -40,6 +52,9 @@ def test_database_1():
     print(f"Inserted Final Output ID: {final_output_id}")
 
 def test_database_2():
+    """
+    Test the database functions.
+    """
     input_id = insert_input("def buggy(): test 2", "Python", "mode2")
     print(f"Inserted Input ID: {input_id}")
 
@@ -69,6 +84,9 @@ def test_database_2():
     print(f"Inserted Final Output ID: {final_output_id}")
 
 def test_database_3():
+    """
+    Test the database functions.
+    """
     input_id = insert_input("def buggy(): test 3", "Python", "mode1")
     print(f"Inserted Input ID: {input_id}")
 
@@ -98,6 +116,9 @@ def test_database_3():
     print(f"Inserted Final Output ID: {final_output_id}")
 
 def test_fetch_output():
+    """
+    Test the retrieval of final outputs based on specific tags.
+    """
     tags_to_search = ["functional bugs", "syntax bugs"]
     input_ids = get_ids_by_tags(tags_to_search)
 
@@ -108,6 +129,9 @@ def test_fetch_output():
         print("No inputs found with the specified tags.")
 
 def test_delete_input():
+    """
+    Test the deletion of inputs based on input IDs.
+    """
     delete_input(1)
     print("Input 1 deleted")
     delete_input(2)

@@ -14,4 +14,5 @@ app = Flask(__name__)
 app.register_blueprint(app_routes)  
 
 if __name__ == "__main__":
+    # The server is listening on port 5000
     app.run(host = "0.0.0.0", port = 5000)

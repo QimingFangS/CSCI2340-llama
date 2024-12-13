@@ -187,6 +187,7 @@ def generate_output():
         with open(final_output_path, 'r', encoding='utf-8') as file:
             markdown_string = file.read()
         
+        # Convert markdown to html
         html_content = markdown_to_html(markdown_string)
 
         return Response(html_content, mimetype = 'text/html', status = 200)
@@ -202,10 +203,12 @@ def get_similar_code():
         data = request.json
         code_ = data['code']
 
+        # Generate tags to search
         tags_to_search = llm_manager.generate_tags(code_input = code_)
         
         input_ids = get_ids_by_tags(tags_to_search)
 
+        # If tags are found, fetch output; otherwise, generate bug report
         if input_ids:
             final_outputs = get_final_output_by_ids(input_ids)
             logger.info("Final outputs for matching tags:", final_outputs)

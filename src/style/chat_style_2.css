@@ -1,0 +1,373 @@
+/* Reset default styles */
+* {
+    margin    : 0;
+    padding   : 0;
+    box-sizing: border-box;
+}
+
+/* Code styling */
+code {
+    display    : inline;
+    width      : fit-content;
+    padding    : 0.25em 0.5em;
+    margin     : 0.25em;
+    line-height: 1.5em;
+}
+
+pre code {
+    display    : block;
+    width      : fit-content;
+    padding    : 0.75em;
+    margin     : 0.5em;
+    line-height: 1.5em;
+    white-space: pre-wrap;
+}
+
+ul {
+    margin-left  : 1em;
+    margin-bottom: 0;
+}
+
+ol {
+    margin-left  : 1.25em;
+    margin-bottom: 0;
+}
+
+/* General styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin     : 0;
+    padding    : 10px;
+}
+
+h1 {
+    color         : var(--vscode-button-background);
+    margin        : 1em 0;
+    letter-spacing: 2px;
+}
+
+/* Input styling */
+.input-area {
+    display       : flex;
+    flex-direction: row;
+    margin-top    : 1em;
+
+    align-items: center;
+}
+
+
+
+.input-area textarea {
+    flex       : 1;
+    box-sizing : border-box;
+    resize     : none;
+    font-family: inherit;
+
+    margin : 1em;
+    padding: 0.75em 1em;
+
+    color           : var(--vscode-input-foreground);
+    background-color: var(--vscode-input-background);
+    border-radius   : 0.5em;
+
+    line-height: 1.125rem;
+}
+
+.input-area button {
+    cursor: pointer;
+
+    border          : var(--vscode-button-border);
+    border-radius   : 0.5em;
+    background-color: var(--vscode-button-background);
+
+    color  : var(--vscode-button-foreground);
+    padding: 0.85em;
+    margin : 0.5em;
+    height : fit-content;
+
+    transition: background-color 0.3s;
+}
+
+.input-area button:hover {
+    background-color: var(--vscode-button-hoverBackground);
+}
+
+.input-area button:active {
+    background-color: var(--vscode-button-activeBackground);
+}
+
+/* Message styling */
+.message {
+    padding      : 0.75em;
+    border-radius: 0.5em;
+    margin       : 0.25em 0;
+    max-width    : 80%;
+    word-wrap    : break-word;
+    position     : relative;
+    white-space  : pre-wrap;
+
+    font-size: 1rem;
+}
+
+.user-message {
+    color           : var(--vscode-button-foreground);
+    background-color: var(--vscode-button-background);
+    align-self      : flex-end;
+}
+
+.code-message {
+    display       : flex;
+    flex-direction: column;
+    gap           : 1em;
+    line-height   : 1.125rem;
+}
+
+/* Chat box styling */
+.chat-box {
+    width         : 100%;
+    height        : 52.5vh;
+    padding       : 15px;
+    overflow-y    : auto;
+    display       : flex;
+    flex-direction: column;
+}
+
+/* Loading spinner */
+.spinner {
+    border       : 4px solid rgba(0, 0, 0, 0.1);
+    border-top   : 4px solid #4caf50;
+    border-radius: 50%;
+    width        : 20px;
+    height       : 20px;
+    animation    : spin 2s linear infinite;
+    display      : inline-block;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading message styling */
+.message.loading-message {
+    display        : flex;
+    align-items    : center;
+    justify-content: flex-start;
+    margin-top     : 10px;
+    font-style     : italic;
+    text-align     : center;
+    font-family    : 'Roboto', sans-serif;
+    font-weight    : 300;
+}
+
+/* Options */
+.dropdowns {
+    margin: 0 1em;
+    display    : flex;
+    flex-direction: column;
+    gap: 0.5em;
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.mode-language-select {
+    display: flex;
+    flex-direction: row;
+    margin-top: 0.75em;
+}
+
+select {
+    padding: 5px;
+
+    background-color: #3d3d3d;
+    color           : #fff;
+    border          : 1px solid #444;
+    border-radius   : 5px;
+}
+
+#messageBoxForLanguage {
+    padding: 0.5em;
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px;
+}
+
+#messageBoxForMode {
+    padding: 0.5em;
+    background-color: #f8d7da; 
+    color: #721c24; 
+    border: 1px solid #f5c6cb; 
+    border-radius: 5px;
+}
+
+/* Sidebar */
+#toggleSidebarIcon {
+    display: none;
+
+    position: fixed;
+    top     : 1em;
+    right   : 1em;
+
+    text-align    : center;
+    padding       : 0 0.25em;
+    padding-bottom: 0.15em;
+    font-size     : 1.5rem;
+    border-radius : 0.25em;
+
+    background-color: #333;
+    color           : white;
+
+    cursor : pointer;
+    z-index: 10;
+}
+
+#sidebar.collapsed+#mainContent+#toggleSidebarIcon {
+    display: block;
+    /* Make the icon visible when sidebar is collapsed */
+}
+
+#toggleSidebarIcon:hover {
+    background-color: #444;
+}
+
+#sidebar {
+    position        : fixed;
+    /* Fix the sidebar in place on the screen */
+    right           : 0;
+    /* Align to the left edge of the viewport */
+    top             : 0;
+    /* Align to the top edge of the viewport */
+    width           : 40vw;
+    /* Set the sidebar width */
+    height          : 100%;
+    /* Extend sidebar to occupy the full viewport height */
+    background-color: #2c2c2c;
+    /* Dark background for visual contrast */
+    transition      : transform 0.3s ease-in-out;
+    /* Smooth transition effect when collapsing/expanding */
+    z-index         : 5;
+    /* Ensure the sidebar stays on top of other elements */
+
+    overflow-y: auto;
+}
+
+#sidebar.collapsed {
+    transform: translateX(100%);
+    /* Move sidebar out of view to the left */
+}
+
+#toggleSidebar {
+
+    color           : white;
+    font-size       : 1.5rem;
+    background-color: #333;
+
+    cursor: pointer;
+
+    position: fixed;
+    top     : 1em;
+    right   : 1em;
+
+    border: none;
+
+    text-align    : center;
+    padding       : 0 0.25em;
+    padding-bottom: 0.15em;
+    font-size     : 1.5rem;
+    border-radius : 0.25em;
+
+    z-index: 20;
+}
+
+#toggleSidebar:hover {
+    background-color: #444;
+}
+
+/* Sidebar Content Area */
+#sidebarContent {
+    padding: 20px;
+}
+
+/* Sidebar Title Styling */
+#sidebarContent h3 {
+    font-size    : 1.25rem;
+    /* Set the title's font size */
+    color        : white;
+    /* Make the title text white */
+    margin-bottom: 20px;
+    /* Space between the title and following elements */
+}
+
+/* History List Base Style */
+#historyList {
+    list-style-type: none;
+    /* Remove default list styling (bullets) */
+    padding        : 0;
+    /* Remove inner padding */
+    margin         : 0;
+    /* Remove outer margin */
+}
+
+/* Individual History Record Styling */
+.history-item {
+    cursor: pointer;
+
+    padding      : 12px;
+    margin-right: 0.35em;
+    margin-bottom: 10px;
+
+    border-radius: 8px;
+
+    font-size: 0.85rem;
+
+    color           : #fff;
+    background-color: #3d3d3d;
+
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover Effect for History Items */
+.history-item:hover {
+    background-color: #555;
+    /* Change background color on hover for user feedback */
+    transform       : scale(1.05);
+    /* Slightly enlarge the history item on hover */
+}
+
+/* Click Effect for History Items */
+.history-item:active {
+    background-color: #444;
+    /* Change background color during click */
+    transform       : scale(0.98);
+    /* Slightly shrink the item on click for a button-like effect */
+}
+
+/* New Chat Button Base Styling */
+#newChatBtn {
+    margin-top      : 20px;
+    /* Space between the button and any preceding elements */
+    padding         : 10px;
+    /* Add internal space to make the button visually appealing */
+    background-color: #4CAF50;
+    /* Set green background color */
+    color           : white;
+    /* Set text color to white for good contrast */
+    border          : none;
+    /* Remove default button borders */
+    border-radius   : 5px;
+    /* Add rounded corners for aesthetic appeal */
+    cursor          : pointer;
+    /* Change cursor to pointer to indicate it's clickable */
+}
+
+/* Hover Effect for New Chat Button */
+#newChatBtn:hover {
+    background-color: #45a049;
+    /* Slightly darker green on hover to indicate interactivity */
+}
